@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="算法," />
 
 
 
@@ -79,13 +79,63 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="行易难">
-<meta property="og:url" content="https://jianyong.github.io/index.html">
+<meta name="description" content="面试题: 判断字符串是否在另一个字符串中存在？  实现方法一: 语言特性-内置函数12345678910111213&amp;lt;?php/* strpos示例 */// testecho &apos;match:&apos;, strpos(&apos;xasfsdfbk&apos;, &apos;xasfsdfbk&apos;) !== false ? &apos;true&apos; : &apos;false&apos;, &apos;;&apos;, PHP_EOL;echo &apos;match:&apos;, strpos">
+<meta name="keywords" content="算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="字符串查找">
+<meta property="og:url" content="https://jianyong.github.io/2018/07/24/字符串查找/index.html">
 <meta property="og:site_name" content="行易难">
+<meta property="og:description" content="面试题: 判断字符串是否在另一个字符串中存在？  实现方法一: 语言特性-内置函数12345678910111213&amp;lt;?php/* strpos示例 */// testecho &apos;match:&apos;, strpos(&apos;xasfsdfbk&apos;, &apos;xasfsdfbk&apos;) !== false ? &apos;true&apos; : &apos;false&apos;, &apos;;&apos;, PHP_EOL;echo &apos;match:&apos;, strpos">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/Rabin-Karp/Rabin-Karp-Basic-Principles.png?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/Rabin-Karp/1.png?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/KMP/KMP-1.png?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/KMP/KMP-2.png?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/KMP/KMP-3.png?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/KMP/KMP-4.png?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/KMP/KMP-5.png?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/KMP/KMP-6.png?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/KMP/KMP-7.png?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/KMP/KMP-8.png?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/KMP/KMP-9.png?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/KMP/KMP-10.png?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/KMP/KMP-11.png?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/KMP/KMP-12.png?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/KMP/KMP-13.png?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/KMP/KMP-14.png?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/KMP/KMP-15.png?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/KMP/KMP-16.png?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/Boyer-Moore/Boyer-Moore-0.jpg?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/Boyer-Moore/Boyer-Moore-1.png?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/Boyer-Moore/Boyer-Moore-2.png?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/Boyer-Moore/Boyer-Moore-3.png?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/Boyer-Moore/Boyer-Moore-4.png?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/Boyer-Moore/Boyer-Moore-5.png?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/Boyer-Moore/Boyer-Moore-6.png?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/Boyer-Moore/Boyer-Moore-7.png?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/Boyer-Moore/Boyer-Moore-8.png?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/Boyer-Moore/Boyer-Moore-9.png?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/Boyer-Moore/Boyer-Moore-10.png?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/Boyer-Moore/Boyer-Moore-11.png?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/Boyer-Moore/Boyer-Moore-12.png?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/Boyer-Moore/Boyer-Moore-13.png?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/Boyer-Moore/Boyer-Moore-14.png?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/sunday/sunday-1.jpg?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/sunday/sunday-2.jpg?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/sunday/sunday-3.jpg?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/Brute-Force.png?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/Aho-Corasick/Aho-Corasick-1.png?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/Aho-Corasick/Aho-Corasick-2.jpg?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/Aho-Corasick/Aho-Corasick-3.jpg?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/Aho-Corasick/Aho-Corasick-goto.png?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/Aho-Corasick/Aho-Corasick-failure.png?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/Aho-Corasick/Aho-Corasick-output.png?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/Aho-Corasick/Aho-Corasick-m.jpg?x-oss-process=style/all">
+<meta property="og:updated_time" content="2018-07-24T10:50:14.637Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="行易难">
+<meta name="twitter:title" content="字符串查找">
+<meta name="twitter:description" content="面试题: 判断字符串是否在另一个字符串中存在？  实现方法一: 语言特性-内置函数12345678910111213&amp;lt;?php/* strpos示例 */// testecho &apos;match:&apos;, strpos(&apos;xasfsdfbk&apos;, &apos;xasfsdfbk&apos;) !== false ? &apos;true&apos; : &apos;false&apos;, &apos;;&apos;, PHP_EOL;echo &apos;match:&apos;, strpos">
+<meta name="twitter:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/Rabin-Karp/Rabin-Karp-Basic-Principles.png?x-oss-process=style/all">
 
 
 
@@ -115,13 +165,13 @@
 
 
 
-  <link rel="canonical" href="https://jianyong.github.io/"/>
+  <link rel="canonical" href="https://jianyong.github.io/2018/07/24/字符串查找/"/>
 
 
 
 
 
-  <title>行易难</title>
+  <title>字符串查找 | 行易难</title>
   
 
 
@@ -140,8 +190,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -214,9 +263,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -246,9 +295,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/24/字符串查找/" itemprop="url">字符串查找</a></h1>
+          <h1 class="post-title" itemprop="name headline">字符串查找</h1>
         
 
         <div class="post-meta">
@@ -298,9 +345,7 @@
       
 
       
-        
-          
-            <blockquote>
+        <blockquote>
 <p>面试题: 判断字符串是否在另一个字符串中存在？</p>
 </blockquote>
 <h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><h3 id="方法一-语言特性-内置函数"><a href="#方法一-语言特性-内置函数" class="headerlink" title="方法一: 语言特性-内置函数"></a>方法一: 语言特性-内置函数</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/* strpos示例 */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// test</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">'match:'</span>, strpos(<span class="string">'xasfsdfbk'</span>, <span class="string">'xasfsdfbk'</span>) !== <span class="keyword">false</span> ? <span class="string">'true'</span> : <span class="string">'false'</span>, <span class="string">';'</span>, PHP_EOL;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">'match:'</span>, strpos(<span class="string">'xasfsdfbk'</span>, <span class="string">'fbk'</span>) !== <span class="keyword">false</span> ? <span class="string">'true'</span> : <span class="string">'false'</span>, <span class="string">';'</span>, PHP_EOL;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">'match:'</span>, strpos(<span class="string">'xasfsdfbk'</span>, <span class="string">'xs'</span>) != <span class="keyword">false</span> ? <span class="string">'true'</span> : <span class="string">'false'</span>, <span class="string">';'</span>, PHP_EOL;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">'match:'</span>, strpos(<span class="string">'xasfsdfbk'</span>, <span class="string">'sfs'</span>) !== <span class="keyword">false</span> ? <span class="string">'true'</span> : <span class="string">'false'</span>, <span class="string">';'</span>, PHP_EOL;</span><br><span class="line"></span><br><span class="line"><span class="comment">// code</span></span><br><span class="line">strpos(<span class="string">'xasfsdfbk'</span>, <span class="string">'sfs'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// mb* 相关的函数也可, 比如说mb_strpos是基于字符数执行一个多字节安全的 strpos() 操作。</span></span><br></pre></td></tr></table></figure>
@@ -730,8 +775,6 @@
 <li><a href="https://blog.csdn.net/v_july_v/article/details/7041827" target="_blank" rel="noopener">从头到尾彻底理解KMP</a></li>
 </ul>
 
-          
-        
       
     </div>
     
@@ -746,378 +789,36 @@
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://jianyong.github.io/2018/07/20/深入理解PHP之foreach/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="jianyong">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行易难">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/深入理解PHP之foreach/" itemprop="url">深入理解PHP之foreach</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-20T23:46:38+08:00">
-                2018-07-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-
+            <a href="/tags/算法/" rel="tag"># 算法</a>
           
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><a href="http://php.net/manual/zh/control-structures.foreach.php" target="_blank" rel="noopener">foreach</a> 语法结构提供了遍历数组的简单方式。</p>
-<p>php5之前, foreach仅能用于数组<br>php5+, 利用foreach可以遍历对象</p>
-<p>foreach仅能够应用于数据和对象，如果尝试应用于其他数据类型的变量，或者未初始化的变量将发出错误信息。</p>
-<p>有两种语法：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  遍历给定的 array_expression 数据。每次循环中， 当前单元的值被赋给$value并且数组内部的指针向前移一步（因此下次循环中将会得到下一个单元）</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">foreach</span> (array_expression <span class="keyword">as</span> $value) &#123;</span><br><span class="line">    <span class="comment">// statement</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span> (array_expression <span class="keyword">as</span> $value) :</span><br><span class="line">    <span class="comment">// statement</span></span><br><span class="line"><span class="keyword">endforeach</span>;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  同上，只除了当前单元格的键名也会在每次循环中被赋给变量$key</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">foreach</span> (array_expression <span class="keyword">as</span> $key =&gt; $value) &#123;</span><br><span class="line">    <span class="comment">// statement</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span> (array_expression <span class="keyword">as</span> $key =&gt; $value) :</span><br><span class="line">    <span class="comment">// statement</span></span><br><span class="line"><span class="keyword">endforeach</span>;</span><br></pre></td></tr></table></figure>
-<p>还能够自定义遍历对象!</p>
-<blockquote>
-<p>当<code>foreach</code>开始执行时, 数组内部的指针会自动指向第一个单元. 这意味着不需要在<code>foreach</code>循环之前调用<code>reset()</code><br>由于<code>foreach</code>依赖内部数组指针, 在循环中修改其值将可能导致意外的行为</p>
-</blockquote>
-<p>可以很容易通过在 $value 之前加上 &amp; 来修改数组元素. 此方法将以<code>引用</code> 赋值, 而不是拷贝一个值.<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>];</span><br><span class="line"><span class="keyword">foreach</span>($arr <span class="keyword">as</span> &amp;$value) &#123;</span><br><span class="line">    $value = $value * <span class="number">2</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// $arr is now [2, 4, 6, 8]</span></span><br><span class="line"><span class="keyword">unset</span>($value); <span class="comment">// 最后取消掉引用</span></span><br></pre></td></tr></table></figure></p>
-<p><code>$value</code>的引用仅在被遍历的数组可以被引用时才可用(例如是个变量)。</p>
-<p>以下代码无法运行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">/*</span><br><span class="line">  此段代码可以运行</span><br><span class="line">  运行结果:</span><br><span class="line">    1-2</span><br><span class="line">    2-4</span><br><span class="line">    3-6</span><br><span class="line">    4-8</span><br><span class="line">*/</span><br><span class="line">foreach (array(1, 2, 3, 4) as &amp;$value) &#123;</span><br><span class="line">    echo $value, &apos;-&apos;;</span><br><span class="line">    $value = $value * 2;</span><br><span class="line">    echo $value, PHP_EOL;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<blockquote>
-<p>Warning: 数组最后一个元素的 <code>$value</code> 引用在 <code>foreach</code> 循环之后仍会保留。建议使用 <code>unset()</code> 来将其销毁。</p>
-<p>Note: <code>foreach</code> 不支持用 <code>@</code> 来抑制错误信息的能力</p>
-</blockquote>
-<h3 id="PHP7-新特性-foreach-修改"><a href="#PHP7-新特性-foreach-修改" class="headerlink" title="PHP7 新特性 foreach 修改"></a>PHP7 新特性 foreach 修改</h3><ul>
-<li style="list-style: none"><input type="checkbox" checked> <code>foreach</code> 循环对数组内部指针不再起作用, 在PHP7之前, 当数据通过foreach迭代时, 数组指针会移动。<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$array = [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>];</span><br><span class="line"><span class="keyword">foreach</span> ($array <span class="keyword">as</span> &amp;$val) &#123;</span><br><span class="line">    var_dump(current($array));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>版本</th>
-<th>结果</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>PHP5</td>
-<td>int(1) int(2) bool(false)</td>
-<td>数组指针会移动</td>
-</tr>
-<tr>
-<td>PHP7</td>
-<td>int(0) int(0) int(0)</td>
-<td>数据指针不再移动</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li style="list-style: none"><input type="checkbox" checked> 按照值进行循环时, 对数组的修改是不会影响循环。</li>
-</ul>
-<p><code>foreach</code>按照值进行循环的时候(by-value), foreach是对该数组的一个拷贝进行操作. 所以在循环过程中修改不影响循环结果</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$arr = [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>];</span><br><span class="line">$ref = &amp;$arr;</span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span> ($arr <span class="keyword">as</span> $val) &#123;</span><br><span class="line">    var_dump($val);</span><br><span class="line">    <span class="keyword">unset</span>($arr[<span class="number">1</span>]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<table>
-<thead>
-<tr>
-<th>版本</th>
-<th>结果</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>PHP5</td>
-<td>int(0) int(2)</td>
-<td>会将unset的数据跳过</td>
-</tr>
-<tr>
-<td>PHP7</td>
-<td>int(0) int(1) int(2)</td>
-<td>对数组的改动不影响循环</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li style="list-style: none"><input type="checkbox" checked> 按照引用进行循环的时候, 对数组的修改会影响循环<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$arr = [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>];</span><br><span class="line">$ref = &amp;$arr;</span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span> ($arr <span class="keyword">as</span> &amp;$val) &#123;</span><br><span class="line">    var_dump($val);</span><br><span class="line">    <span class="keyword">unset</span>($arr[<span class="number">1</span>]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>版本</th>
-<th>结果</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>PHP5</td>
-<td>int(0) int(2)</td>
-</tr>
-<tr>
-<td>PHP7</td>
-<td>int(0) int(2)</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li style="list-style: none"><input type="checkbox" checked> 对简单对象plain(non-Traversable)的循环</li>
-<li><p>在简单对象的循环, 不管是按照值循环还是引用循环, 和按照引用对数组循环的行为是一样的, 不过对位置的管理会更加精确</p>
-</li>
-<li><p>[x] 对迭代对象(Traversable objects)对象行为和之前一致</p>
-</li>
-</ul>
-<p><code>stackoverflow</code> 上面的解释, Traversable objects is one that implements Iterator or IteratorAggregate interface</p>
-<p>如果一个对象实现了 <code>Iterator</code> 或者 <code>IteratorAggregate</code> 接口, 即可称之为迭代对象</p>
-<hr>
-<p>foreach 虽然简单, 不过它可能出现一些意外行为， 特别是代码涉及到引用的时候。</p>
-<h3 id="问题一-如下代码运行结果为何不是-2-4-6"><a href="#问题一-如下代码运行结果为何不是-2-4-6" class="headerlink" title="问题一: 如下代码运行结果为何不是 2/4/6 ?"></a>问题一: 如下代码运行结果为何不是 2/4/6 ?</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span> ($arr <span class="keyword">as</span> $k =&gt; &amp;$v) &#123;</span><br><span class="line">    $v = $v * <span class="number">2</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span> ($arr <span class="keyword">as</span> $k =&gt; $v) &#123;</span><br><span class="line">    <span class="keyword">echo</span> $v, PHP_EOL;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">输出:</span></span><br><span class="line"><span class="comment">    2</span></span><br><span class="line"><span class="comment">    4</span></span><br><span class="line"><span class="comment">    4</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
-<p>我们可以认为 <code>foreach($arr as &amp;$v)</code> 结构隐含了如下操作, 分别将数组当前的 <code>键</code> 和 <code>值</code> 赋值给 <code>$k</code> 和 <code>$v</code>. 具体展开形如:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">foreach ($arr as $k =&gt; $v) &#123;</span><br><span class="line">    $k = currentKey();</span><br><span class="line">    $v = currentVal();</span><br><span class="line">    // 继续运行用户代码</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>根据上述理论, 现在我们重新来分析下第一个<code>foreach</code>:<br>循环 | 备注 | $arr值<br>—|—|—<br>循环 1-1 | 由于<code>$v</code>是一个引用, 因此 <code>$v = &amp;$arr[0]</code>, <code>$v = $v * 2</code> 相当于 <code>$arr[0] * 2</code> | [2, 2, 3]<br>循环 1-2 | <code>$v = &amp;$arr[1]</code> | [2, 4, 3]<br>循环 1-3 | <code>$v = &amp;$arr[2]</code> | [2, 4, 6]<br>循环 2-1 | 隐含操作 <code>$v = $arr[0]</code> 被触发, 由于此时 <code>$v</code> 仍是 <code>$arr[2]</code> 的引用, 相当于 <code>$arr[2] = $arr[0]</code> | [2, 4, 2]<br>循环 2-2 | <code>$v = $arr[1]</code>, 即<code>$arr[2] = $arr[1]</code> | [2, 4, 4]<br>循环 2-3 | <code>$v = $arr[2]</code>, 即<code>$arr[2] = $arr[2]</code> | [2, 4, 4]</p>
-<p>如何解决此类问题呢? PHP手册上有一段提醒:</p>
-<blockquote>
-<p>Warning: 数组最后一个元素的 $value 引用在 foreach 循环之后仍会保留。建议使用 unset() 来将其销毁。</p>
-</blockquote>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span> ($arr <span class="keyword">as</span> $k =&gt; &amp;$v) &#123;</span><br><span class="line">    $v = $v * <span class="number">2</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">unset</span>($v);</span><br><span class="line"><span class="keyword">foreach</span> ($arr <span class="keyword">as</span> $k =&gt; $v) &#123;</span><br><span class="line">    <span class="keyword">echo</span> $v, PHP_EOL;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">输出:</span></span><br><span class="line"><span class="comment">    2</span></span><br><span class="line"><span class="comment">    4</span></span><br><span class="line"><span class="comment">    6</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
-<p>从这个问题可以看出, 引用很可能会伴随副作用。如果不希望无意识的修改导致数据内容变更， 最好及时unset掉这些引用。</p>
-<h3 id="问题二-如下代码运行结果为何不是-0-gt-a-1-gt-b-2-gt-c"><a href="#问题二-如下代码运行结果为何不是-0-gt-a-1-gt-b-2-gt-c" class="headerlink" title="问题二: 如下代码运行结果为何不是 0=&gt;a 1=&gt;b 2=&gt;c"></a>问题二: 如下代码运行结果为何不是 0=&gt;a 1=&gt;b 2=&gt;c</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$arr = [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span> ($arr <span class="keyword">as</span> $k =&gt; $v) &#123;</span><br><span class="line">    <span class="keyword">echo</span> key($arr), <span class="string">"=&gt;"</span>, current($arr), PHP_EOL;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span> ($arr <span class="keyword">as</span> $k =&gt; &amp;$v) &#123;</span><br><span class="line">    <span class="keyword">echo</span> key($arr), <span class="string">"=&gt;"</span>, current($arr), PHP_EOL;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">#php5.6</span></span><br><span class="line"><span class="comment">1=&gt;b 1=&gt;b 1=&gt;b</span></span><br><span class="line"><span class="comment">1=&gt;b 2=&gt;c =&gt;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">#php7</span></span><br><span class="line"><span class="comment">0=&gt;a 0=&gt;a 0=&gt;a</span></span><br><span class="line"><span class="comment">0=&gt;a 0=&gt;a 0=&gt;a</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
-<p>按照手册中的说法, key和current分别是获取数据中当前元素的键值。<br>那为何 <code>key($arr)</code> 一直是0，<code>current($arr)</code> 一直是’a’呢？</p>
-<p>先用vld查看编译后的 <code>opcode</code>:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">➜  demo /usr/local/Cellar/php/7.2.7/bin/php -dvld.active=1 a.php</span><br><span class="line">Finding entry points</span><br><span class="line">Branch analysis from position: 0</span><br><span class="line">Jump found. (Code = 77) Position 1 = 2, Position 2 = 15</span><br><span class="line">Branch analysis from position: 2</span><br><span class="line">Jump found. (Code = 78) Position 1 = 3, Position 2 = 15</span><br><span class="line">Branch analysis from position: 3</span><br><span class="line">Jump found. (Code = 42) Position 1 = 2</span><br><span class="line">Branch analysis from position: 2</span><br><span class="line">Branch analysis from position: 15</span><br><span class="line">Jump found. (Code = 62) Position 1 = -2</span><br><span class="line">Branch analysis from position: 15</span><br><span class="line">filename:       /Users/jianyong/demo/a.php</span><br><span class="line">function name:  (null)</span><br><span class="line">number of ops:  17</span><br><span class="line">compiled vars:  !0 = $arr, !1 = $v, !2 = $k</span><br><span class="line">line     #* E I O op                           fetch          ext  return  operands</span><br><span class="line">-------------------------------------------------------------------------------------</span><br><span class="line">   2     0  E &gt;   ASSIGN                                                   !0, &lt;array&gt;</span><br><span class="line">   4     1      &gt; FE_RESET_R                                       $4      !0, -&gt;15</span><br><span class="line">         2    &gt; &gt; FE_FETCH_R                                       ~5      $4, !1, -&gt;15</span><br><span class="line">         3    &gt;   ASSIGN                                                   !2, ~5</span><br><span class="line">   5     4        INIT_FCALL                                               &apos;key&apos;</span><br><span class="line">         5        SEND_VAR                                                 !0</span><br><span class="line">         6        DO_ICALL                                         $7</span><br><span class="line">         7        ECHO                                                     $7</span><br><span class="line">         8        ECHO                                                     &apos;%3D%3E&apos;</span><br><span class="line">         9        INIT_FCALL                                               &apos;current&apos;</span><br><span class="line">        10        SEND_VAR                                                 !0</span><br><span class="line">        11        DO_ICALL                                         $8</span><br><span class="line">        12        ECHO                                                     $8</span><br><span class="line">        13        ECHO                                                     &apos;%0A&apos;</span><br><span class="line">        14      &gt; JMP                                                      -&gt;2</span><br><span class="line">        15    &gt;   FE_FREE                                                  $4</span><br><span class="line">   7    16      &gt; RETURN                                                   1</span><br><span class="line"></span><br><span class="line">branch: #  0; line:     2-    4; sop:     0; eop:     1; out1:   2; out2:  15</span><br><span class="line">branch: #  2; line:     4-    4; sop:     2; eop:     2; out1:   3; out2:  15</span><br><span class="line">branch: #  3; line:     4-    5; sop:     3; eop:    14; out1:   2</span><br><span class="line">branch: # 15; line:     5-    7; sop:    15; eop:    16; out1:  -2</span><br><span class="line">path #1: 0, 2, 3, 2, 15,</span><br><span class="line">path #2: 0, 2, 15,</span><br><span class="line">path #3: 0, 15,</span><br><span class="line">0=&gt;a</span><br><span class="line">0=&gt;a</span><br><span class="line">0=&gt;a</span><br></pre></td></tr></table></figure></p>
-<p><strong>// 待补充</strong></p>
-<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ul>
-<li><a href="https://wiki.php.net/rfc/php7_foreach" target="_blank" rel="noopener">https://wiki.php.net/rfc/php7_foreach</a></li>
-<li><a href="http://git.php.net/?p=php-src.git;a=commitdiff;h=97fe15db4356f8fa1b3b8eb9bb1baa8141376077" target="_blank" rel="noopener">97fe15db4356f8fa1b3b8eb9bb1baa8141376077</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
       
 
       
       
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
       
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://jianyong.github.io/2018/02/11/PHP扩展安装/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="jianyong">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行易难">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/11/PHP扩展安装/" itemprop="url">PHP扩展安装</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-11T00:08:23+08:00">
-                2018-02-11
-              </time>
+              <a href="/2018/07/20/深入理解PHP之foreach/" rel="next" title="深入理解PHP之foreach">
+                <i class="fa fa-chevron-left"></i> 深入理解PHP之foreach
+              </a>
             
+          </div>
 
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <p>###源码中扩展文件安装(如pcntl扩展)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">wget http://cn2.php.net/distributions/php-5.5.7.tar.gz</span><br><span class="line">tar zxvf php-5.5.7.tar.gz</span><br><span class="line">cd php-5.5.7</span><br><span class="line"></span><br><span class="line">cd ext/pcntl</span><br><span class="line">/usr/bin/phpize</span><br><span class="line">./configure --with-php-config=bin/php-config   #（ps:请正确的指定php-config的目录）</span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure></p>
-<p>###php_oci 安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 安装oci必须先安装oracle-instantclient, 去官网下载相应版本的客户端的rpm包, 直接安装即可</span><br><span class="line">rpm -Uvh oracle-instantclient11.2-basic-11.2.0.3.0-1.x86_64.rpm </span><br><span class="line">rpm -Uvh oracle-instantclient11.2-devel-11.2.0.3.0-1.x86_64.rpm </span><br><span class="line"></span><br><span class="line"># 第一个 RPM 将 Oracle 库放在 /usr/lib/oracle/11.2/client64/lib 中</span><br><span class="line"># 第二个 RPM 在/usr/include/oracle/11.2/client64 中创建头。</span><br><span class="line"></span><br><span class="line">pecl install oci8</span><br></pre></td></tr></table></figure></p>
-<p>###源码安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">tar zxvf memcached.tar.gz</span><br><span class="line">cd memcached</span><br><span class="line">phpize</span><br><span class="line">./configure --with-php-config=bin/php-config </span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure></p>
-<p>###修改PHP配置文件, 加入相应扩展<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">extension=memcache.so</span><br><span class="line">extension=pcntl.so</span><br><span class="line">extension=oci8.so</span><br></pre></td></tr></table></figure></p>
-<p>###常见问题</p>
-<h6 id="TODO-通过源码安装pdo-oci时会出现一些问题"><a href="#TODO-通过源码安装pdo-oci时会出现一些问题" class="headerlink" title="TODO 通过源码安装pdo_oci时会出现一些问题"></a>TODO 通过源码安装pdo_oci时会出现一些问题</h6><ul>
-<li>configure: error: Unsupported Oracle version! 12.1</li>
-<li>将pdo_oci的版本由 PDO_OCI-1.0 换成 PDO_OCI-1.0RC2</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -1127,436 +828,11 @@
   </article>
 
 
-    
-      
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://jianyong.github.io/2018/02/11/PHPExcel长数字处理/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="jianyong">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行易难">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/11/PHPExcel长数字处理/" itemprop="url">PHPExcel长数字处理</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-11T00:05:31+08:00">
-                2018-02-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<p>在excel中如果在一个默认的格中输入或复制超长数字字符串，它会显示为科学计算法，例如身份证号码，解决方法是把表格设置文本格式或在输入前加一个单引号。<br>使用PHPExcel来生成excel，也会遇到同样的问题，解决方法有三种：</p>
-<h3 id="1、设置单元格为文本"><a href="#1、设置单元格为文本" class="headerlink" title="1、设置单元格为文本"></a>1、设置单元格为文本</h3></blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">$objPHPExcel = new PHPExcel();</span><br><span class="line">$objPHPExcel-&gt;setActiveSheetIndex(0);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;setTitle(&apos;Simple&apos;);</span><br><span class="line"></span><br><span class="line">//设置A3单元格为文本</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(&apos;A3&apos;)-&gt;getNumberFormat()</span><br><span class="line">        -&gt;setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);</span><br><span class="line"></span><br><span class="line">//也可以设置整行或整列的style</span><br><span class="line">/*</span><br><span class="line">//E 列为文本</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(&apos;E&apos;)-&gt;getNumberFormat()</span><br><span class="line">	-&gt;setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);</span><br><span class="line"></span><br><span class="line">//第三行为文本</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(&apos;3&apos;)-&gt;getNumberFormat()</span><br><span class="line">	-&gt;setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);</span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>更多的格式可以在PHPExcel/Style/NumberFormat.php中找到。注意：上述的设置对长数字字符串还是以文本方式来显示科学计数法的结果，原因可能php在处理大数字时采用的科学计数法。</p>
-</blockquote>
-<h3 id="2、在设置值的时候显示的指定数据类型"><a href="#2、在设置值的时候显示的指定数据类型" class="headerlink" title="2、在设置值的时候显示的指定数据类型"></a>2、在设置值的时候显示的指定数据类型</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$objPHPExcel = new PHPExcel();</span><br><span class="line">$objPHPExcel-&gt;setActiveSheetIndex(0);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;setTitle(&apos;Simple&apos;);</span><br><span class="line"> </span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;setCellValueExplicit(&apos;D1&apos;, 123456789033, PHPExcel_Cell_DataType::TYPE_STRING);</span><br></pre></td></tr></table></figure>
-<h3 id="3、在数字字符串前加一个空格使之成为字符串"><a href="#3、在数字字符串前加一个空格使之成为字符串" class="headerlink" title="3、在数字字符串前加一个空格使之成为字符串"></a>3、在数字字符串前加一个空格使之成为字符串</h3>   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$objPHPExcel = new PHPExcel();</span><br><span class="line">$objPHPExcel-&gt;setActiveSheetIndex(0);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;setTitle(&apos;Simple&apos;);</span><br><span class="line"> </span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;setCellValue(&apos;D1&apos;, &apos; &apos; . 123456789033);</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>推荐使用第二、三种，第一种没有根本解决问题。</p>
-</blockquote>
-
-          
-        
+    <div class="post-spread">
       
     </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
   </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://jianyong.github.io/2018/02/11/sso/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="jianyong">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行易难">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/11/sso/" itemprop="url">sso</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-11T00:03:44+08:00">
-                2018-02-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="SSO调研和部署相关"><a href="#SSO调研和部署相关" class="headerlink" title="SSO调研和部署相关"></a>SSO调研和部署相关</h1><blockquote>
-<p>登录是服务化必不可少的一步, 行业大多通过单点登录(SSO)来解决此问题, 当然不同公司实现的方式也不相同.</p>
-</blockquote>
-<h3 id="现有登录流程"><a href="#现有登录流程" class="headerlink" title="现有登录流程"></a>现有登录流程</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">st=&gt;start: 点击菜单</span><br><span class="line">end=&gt;end: 结束</span><br><span class="line">loginCheck=&gt;condition: 是否登录</span><br><span class="line">success=&gt;operation: 访问成功</span><br><span class="line">failed=&gt;operation: 访问失败</span><br><span class="line">login=&gt;condition: 登录</span><br><span class="line"></span><br><span class="line">st-&gt;loginCheck</span><br><span class="line">loginCheck(yes)-&gt;success</span><br><span class="line">loginCheck(no)-&gt;login</span><br><span class="line">login(yes)-&gt;success</span><br><span class="line">login(no)-&gt;failed</span><br><span class="line">success-&gt;end</span><br><span class="line">failed-&gt;end</span><br></pre></td></tr></table></figure>
-<h3 id="服务化后的登录流程"><a href="#服务化后的登录流程" class="headerlink" title="服务化后的登录流程"></a>服务化后的登录流程</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">start=&gt;start: 点击菜单</span><br><span class="line">end=&gt;end: 结束</span><br><span class="line">loginCheck=&gt;condition: 是否登录</span><br><span class="line">success=&gt;operation: 访问成功</span><br><span class="line">ssoAuth=&gt;condition: SSO验证</span><br><span class="line">ssoLogin=&gt;condition: SSO登录</span><br><span class="line">failed=&gt;operation: 访问失败</span><br><span class="line">ssoNotify=&gt;operation: SSO通知</span><br><span class="line"></span><br><span class="line">start-&gt;loginCheck</span><br><span class="line">loginCheck(yes)-&gt;success</span><br><span class="line">loginCheck(no)-&gt;ssoAuth</span><br><span class="line">ssoAuth(yes)-&gt;success</span><br><span class="line">ssoAuth(no)-&gt;ssoLogin</span><br><span class="line">ssoLogin(yes)-&gt;ssoNotify-&gt;success</span><br><span class="line">ssoLogin(no)-&gt;failed</span><br><span class="line">failed-&gt;end</span><br><span class="line">success-&gt;end</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">APP-&gt;SSO: 验证是否登录</span><br><span class="line">Note right of SSO: 验证是否登录</span><br><span class="line">SSO-&gt;APP: 验证失败</span><br><span class="line"></span><br><span class="line">APP-&gt;SSO: 登录</span><br><span class="line">Note right of SSO: 登录验证</span><br><span class="line">SSO-&gt;APP: 通知应用登录成功</span><br><span class="line"></span><br><span class="line">APP-&gt;SSO: 验证是否登录</span><br><span class="line">Note right of SSO: 验证是否登录</span><br><span class="line">SSO-&gt;APP: 验证成功</span><br><span class="line">Note left of APP: 重置APP的 session id</span><br></pre></td></tr></table></figure>
-<h3 id="完整的SSO登录时序图和流程图"><a href="#完整的SSO登录时序图和流程图" class="headerlink" title="完整的SSO登录时序图和流程图"></a>完整的SSO登录时序图和流程图</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">浏览器-&gt;客户端: 1. 用户请求</span><br><span class="line">客户端-&gt;客户端: 2. 验证是否已经登录</span><br><span class="line">客户端-&gt;SSO: 3. 没有登录,重定向至SSO服务器</span><br><span class="line">SSO-&gt;SSO: 4. 登录流程</span><br><span class="line">SSO-&gt;客户端: 5. 携带凭据重定向回客户端</span><br><span class="line">客户端-&gt;SSO: 6.验证凭据是否有效</span><br><span class="line">SSO-&gt;客户端: 7. 有效则正常显示页面</span><br><span class="line">客户端-&gt;浏览器: 8. 完成</span><br></pre></td></tr></table></figure>
-<h6 id="对应流程图"><a href="#对应流程图" class="headerlink" title="对应流程图"></a>对应流程图</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">start=&gt;start: 访问页面</span><br><span class="line">end=&gt;end: 结束</span><br><span class="line">getToken=&gt;operation: 截取token</span><br><span class="line">checkToken=&gt;condition: token是否有效</span><br><span class="line">handle=&gt;operation: 后续动作</span><br><span class="line">ssoLogin=&gt;operation: 登录</span><br><span class="line">syncToken=&gt;operation: 登录成功同步token至客户端</span><br><span class="line">saveToken=&gt;operation: 种植token</span><br><span class="line"></span><br><span class="line">start-&gt;getToken-&gt;checkToken</span><br><span class="line">checkToken(yes)-&gt;handle-&gt;end</span><br><span class="line">checkToken(no)-&gt;ssoLogin-&gt;syncToken-&gt;saveToken-&gt;end</span><br></pre></td></tr></table></figure>
-<h3 id="一个相对完整的APP-SSO登录时序图"><a href="#一个相对完整的APP-SSO登录时序图" class="headerlink" title="一个相对完整的APP SSO登录时序图"></a>一个相对完整的APP SSO登录时序图</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">App-&gt;Web: 请求需要的登录页</span><br><span class="line">Web-&gt;App: 返回302跳转</span><br><span class="line">App-&gt;SSO: 带token跳转到登录页</span><br><span class="line">SSO-&gt;AppServer: token</span><br><span class="line">AppServer-&gt;SSO: 返回用户ID</span><br><span class="line">SSO-&gt;SSO: 生成用户登录信息</span><br><span class="line">SSO-&gt;App: 带token302跳转</span><br><span class="line">App-&gt;Web: 带token跳转到回调页</span><br><span class="line">Web-&gt;SSO: 凭token请求Auth</span><br><span class="line">SSO-&gt;Web: 返回用户ID等信息</span><br><span class="line">Web-&gt;Web: 生成用户登录信息</span><br><span class="line">Web-&gt;App: 返回请求的页面</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://jianyong.github.io/2018/02/10/使用composer开发PHP扩展库/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="jianyong">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行易难">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/10/使用composer开发PHP扩展库/" itemprop="url">使用composer开发PHP扩展库</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-10T23:33:43+08:00">
-                2018-02-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="已完成的扩展库"><a href="#已完成的扩展库" class="headerlink" title="已完成的扩展库"></a>已完成的扩展库</h3><table>
-<thead>
-<tr>
-<th>序号</th>
-<th>库名</th>
-<th style="text-align:center">地址</th>
-<th style="text-align:right">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>phprush/demo</td>
-<td style="text-align:center"><a href="https://github.com/phprush/demo.git" target="_blank" rel="noopener">https://github.com/phprush/demo.git</a></td>
-<td style="text-align:right">演示库</td>
-</tr>
-<tr>
-<td>2</td>
-<td>phprush/websocket</td>
-<td style="text-align:center"><a href="https://github.com/phprush/websocket.git" target="_blank" rel="noopener">https://github.com/phprush/websocket.git</a></td>
-<td style="text-align:right">php websocket 客户端库</td>
-</tr>
-<tr>
-<td>3</td>
-<td>phprush/wechat-applet</td>
-<td style="text-align:center"><a href="https://github.com/phprush/wechat-applet.git" target="_blank" rel="noopener">https://github.com/phprush/wechat-applet.git</a></td>
-<td style="text-align:right">微信小程序SDK封装(laravel使用)</td>
-</tr>
-<tr>
-<td>4</td>
-<td>phprush/simple-encrypt</td>
-<td style="text-align:center"><a href="https://github.com/phprush/simple-encrypt.git" target="_blank" rel="noopener">https://github.com/phprush/simple-encrypt.git</a></td>
-<td style="text-align:right">一个简单的加密库</td>
-</tr>
-<tr>
-<td>5</td>
-<td>phprush/requests</td>
-<td style="text-align:center"><a href="https://github.com/phprush/requests.git" target="_blank" rel="noopener">https://github.com/phprush/requests.git</a></td>
-<td style="text-align:right">一个简单的http请求库</td>
-</tr>
-</tbody>
-</table>
-<h3 id="库的开发方式"><a href="#库的开发方式" class="headerlink" title="库的开发方式"></a>库的开发方式</h3><ul>
-<li>composer init</li>
-<li>composer.json 中使用psr-4规范配置autoload</li>
-<li>src中开发代码</li>
-<li>github/packagist中发布代码</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-  </section>
-
-  
 
 
           </div>
@@ -1564,6 +840,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -1584,8 +864,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -1636,6 +925,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#实现"><span class="nav-number">1.</span> <span class="nav-text">实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#方法一-语言特性-内置函数"><span class="nav-number">1.1.</span> <span class="nav-text">方法一: 语言特性-内置函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法二-语言特性-正则匹配"><span class="nav-number">1.2.</span> <span class="nav-text">方法二: 语言特性-正则匹配</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法三-语言特性-字符串分割"><span class="nav-number">1.3.</span> <span class="nav-text">方法三: 语言特性-字符串分割</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法四-很暴力的查找"><span class="nav-number">1.4.</span> <span class="nav-text">方法四: 很暴力的查找</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法五-朴素算法-暴力查找"><span class="nav-number">1.5.</span> <span class="nav-text">方法五: 朴素算法(暴力查找)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法六-字符串查找算法-Rabin-Karp算法"><span class="nav-number">1.6.</span> <span class="nav-text">方法六: 字符串查找算法-Rabin-Karp算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法七-字符串查找算法-KMP"><span class="nav-number">1.7.</span> <span class="nav-text">方法七: 字符串查找算法-KMP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法八-字符串查找算法-Boyer-Moore"><span class="nav-number">1.8.</span> <span class="nav-text">方法八: 字符串查找算法-Boyer-Moore</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法九-字符串查找算法-Sunday"><span class="nav-number">1.9.</span> <span class="nav-text">方法九: 字符串查找算法-Sunday</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法十-字符串查找算法-BF算法-Brute-Force"><span class="nav-number">1.10.</span> <span class="nav-text">方法十: 字符串查找算法-BF算法(Brute Force)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法十一-Aho-Corasick-算法"><span class="nav-number">1.11.</span> <span class="nav-text">方法十一: Aho-Corasick 算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#伪方法一-字符串转数组-取交集-判断结果"><span class="nav-number">1.12.</span> <span class="nav-text">伪方法一: 字符串转数组, 取交集, 判断结果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法原理"><span class="nav-number">2.</span> <span class="nav-text">算法原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#算法一-Rabin-Karp算法-Karp-Rabin"><span class="nav-number">2.1.</span> <span class="nav-text">算法一: Rabin-Karp算法(Karp-Rabin)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#算法二-KMP算法-Knuth-Morris-Pratt"><span class="nav-number">2.2.</span> <span class="nav-text">算法二: KMP算法(Knuth Morris Pratt)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#算法三-Boyer-Moore算法"><span class="nav-number">2.3.</span> <span class="nav-text">算法三: Boyer-Moore算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#算法四-Sunday算法"><span class="nav-number">2.4.</span> <span class="nav-text">算法四: Sunday算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#算法五-BF算法-Brute-Force"><span class="nav-number">2.5.</span> <span class="nav-text">算法五: BF算法(Brute Force)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#算法六-Aho-Corasick算法"><span class="nav-number">2.6.</span> <span class="nav-text">算法六: Aho-Corasick算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特点"><span class="nav-number">3.</span> <span class="nav-text">特点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#速度快"><span class="nav-number">3.1.</span> <span class="nav-text">速度快</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#有几种时间复杂性的评价指标"><span class="nav-number">3.1.1.</span> <span class="nav-text">有几种时间复杂性的评价指标</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存占用少"><span class="nav-number">3.2.</span> <span class="nav-text">内存占用少</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PHP-strpos-分析"><span class="nav-number">4.</span> <span class="nav-text">PHP(strpos)分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#strpos-ext-standard-string-c"><span class="nav-number">4.1.</span> <span class="nav-text">strpos(ext/standard/string.c)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#php-memnstr-main-php-h"><span class="nav-number">4.2.</span> <span class="nav-text">php_memnstr(main/php.h)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zend-memnstr-Zend-zend-operators-h"><span class="nav-number">4.3.</span> <span class="nav-text">zend_memnstr(Zend/zend_operators.h)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#memchr-string-h"><span class="nav-number">4.4.</span> <span class="nav-text">memchr(string.h)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#memcmp-string-h"><span class="nav-number">4.5.</span> <span class="nav-text">memcmp(string.h)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -1781,6 +1086,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
