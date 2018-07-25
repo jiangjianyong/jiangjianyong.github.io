@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="foreach 语法结构提供了遍历数组的简单方式。 php5之前, foreach仅能用于数组php5+, 利用foreach可以遍历对象 foreach仅能够应用于数据和对象，如果尝试应用于其他数据类型的变量，或者未初始化的变量将发出错误信息。 有两种语法：12345678910/*  遍历给定的 array_expression 数据。每次循环中， 当前单元的值被赋给$value并且数组内部的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入理解PHP之foreach">
+<meta property="og:url" content="https://jianyong.github.io/2018/07/20/深入理解PHP之foreach/index.html">
+<meta property="og:site_name" content="行易难">
+<meta property="og:description" content="foreach 语法结构提供了遍历数组的简单方式。 php5之前, foreach仅能用于数组php5+, 利用foreach可以遍历对象 foreach仅能够应用于数据和对象，如果尝试应用于其他数据类型的变量，或者未初始化的变量将发出错误信息。 有两种语法：12345678910/*  遍历给定的 array_expression 数据。每次循环中， 当前单元的值被赋给$value并且数组内部的">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-07-20T15:47:21.276Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深入理解PHP之foreach">
+<meta name="twitter:description" content="foreach 语法结构提供了遍历数组的简单方式。 php5之前, foreach仅能用于数组php5+, 利用foreach可以遍历对象 foreach仅能够应用于数据和对象，如果尝试应用于其他数据类型的变量，或者未初始化的变量将发出错误信息。 有两种语法：12345678910/*  遍历给定的 array_expression 数据。每次循环中， 当前单元的值被赋给$value并且数组内部的">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://jianyong.github.io/2018/07/20/深入理解PHP之foreach/"/>
+
+
+
+
+
+  <title>深入理解PHP之foreach | 行易难</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">行易难</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jianyong.github.io/2018/07/20/深入理解PHP之foreach/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jianyong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行易难">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">深入理解PHP之foreach</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-20T23:46:38+08:00">
+                2018-07-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="http://php.net/manual/zh/control-structures.foreach.php" target="_blank" rel="noopener">foreach</a> 语法结构提供了遍历数组的简单方式。</p>
+<p>php5之前, foreach仅能用于数组<br>php5+, 利用foreach可以遍历对象</p>
+<p>foreach仅能够应用于数据和对象，如果尝试应用于其他数据类型的变量，或者未初始化的变量将发出错误信息。</p>
+<p>有两种语法：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  遍历给定的 array_expression 数据。每次循环中， 当前单元的值被赋给$value并且数组内部的指针向前移一步（因此下次循环中将会得到下一个单元）</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">foreach</span> (array_expression <span class="keyword">as</span> $value) &#123;</span><br><span class="line">    <span class="comment">// statement</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span> (array_expression <span class="keyword">as</span> $value) :</span><br><span class="line">    <span class="comment">// statement</span></span><br><span class="line"><span class="keyword">endforeach</span>;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  同上，只除了当前单元格的键名也会在每次循环中被赋给变量$key</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">foreach</span> (array_expression <span class="keyword">as</span> $key =&gt; $value) &#123;</span><br><span class="line">    <span class="comment">// statement</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span> (array_expression <span class="keyword">as</span> $key =&gt; $value) :</span><br><span class="line">    <span class="comment">// statement</span></span><br><span class="line"><span class="keyword">endforeach</span>;</span><br></pre></td></tr></table></figure>
+<p>还能够自定义遍历对象!</p>
+<blockquote>
+<p>当<code>foreach</code>开始执行时, 数组内部的指针会自动指向第一个单元. 这意味着不需要在<code>foreach</code>循环之前调用<code>reset()</code><br>由于<code>foreach</code>依赖内部数组指针, 在循环中修改其值将可能导致意外的行为</p>
+</blockquote>
+<p>可以很容易通过在 $value 之前加上 &amp; 来修改数组元素. 此方法将以<code>引用</code> 赋值, 而不是拷贝一个值.<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>];</span><br><span class="line"><span class="keyword">foreach</span>($arr <span class="keyword">as</span> &amp;$value) &#123;</span><br><span class="line">    $value = $value * <span class="number">2</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// $arr is now [2, 4, 6, 8]</span></span><br><span class="line"><span class="keyword">unset</span>($value); <span class="comment">// 最后取消掉引用</span></span><br></pre></td></tr></table></figure></p>
+<p><code>$value</code>的引用仅在被遍历的数组可以被引用时才可用(例如是个变量)。</p>
+<p>以下代码无法运行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">/*</span><br><span class="line">  此段代码可以运行</span><br><span class="line">  运行结果:</span><br><span class="line">    1-2</span><br><span class="line">    2-4</span><br><span class="line">    3-6</span><br><span class="line">    4-8</span><br><span class="line">*/</span><br><span class="line">foreach (array(1, 2, 3, 4) as &amp;$value) &#123;</span><br><span class="line">    echo $value, &apos;-&apos;;</span><br><span class="line">    $value = $value * 2;</span><br><span class="line">    echo $value, PHP_EOL;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>Warning: 数组最后一个元素的 <code>$value</code> 引用在 <code>foreach</code> 循环之后仍会保留。建议使用 <code>unset()</code> 来将其销毁。</p>
+<p>Note: <code>foreach</code> 不支持用 <code>@</code> 来抑制错误信息的能力</p>
+</blockquote>
+<h3 id="PHP7-新特性-foreach-修改"><a href="#PHP7-新特性-foreach-修改" class="headerlink" title="PHP7 新特性 foreach 修改"></a>PHP7 新特性 foreach 修改</h3><ul>
+<li style="list-style: none"><input type="checkbox" checked> <code>foreach</code> 循环对数组内部指针不再起作用, 在PHP7之前, 当数据通过foreach迭代时, 数组指针会移动。<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$array = [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>];</span><br><span class="line"><span class="keyword">foreach</span> ($array <span class="keyword">as</span> &amp;$val) &#123;</span><br><span class="line">    var_dump(current($array));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>版本</th>
+<th>结果</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PHP5</td>
+<td>int(1) int(2) bool(false)</td>
+<td>数组指针会移动</td>
+</tr>
+<tr>
+<td>PHP7</td>
+<td>int(0) int(0) int(0)</td>
+<td>数据指针不再移动</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li style="list-style: none"><input type="checkbox" checked> 按照值进行循环时, 对数组的修改是不会影响循环。</li>
+</ul>
+<p><code>foreach</code>按照值进行循环的时候(by-value), foreach是对该数组的一个拷贝进行操作. 所以在循环过程中修改不影响循环结果</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$arr = [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>];</span><br><span class="line">$ref = &amp;$arr;</span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span> ($arr <span class="keyword">as</span> $val) &#123;</span><br><span class="line">    var_dump($val);</span><br><span class="line">    <span class="keyword">unset</span>($arr[<span class="number">1</span>]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>版本</th>
+<th>结果</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PHP5</td>
+<td>int(0) int(2)</td>
+<td>会将unset的数据跳过</td>
+</tr>
+<tr>
+<td>PHP7</td>
+<td>int(0) int(1) int(2)</td>
+<td>对数组的改动不影响循环</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li style="list-style: none"><input type="checkbox" checked> 按照引用进行循环的时候, 对数组的修改会影响循环<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$arr = [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>];</span><br><span class="line">$ref = &amp;$arr;</span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span> ($arr <span class="keyword">as</span> &amp;$val) &#123;</span><br><span class="line">    var_dump($val);</span><br><span class="line">    <span class="keyword">unset</span>($arr[<span class="number">1</span>]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>版本</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PHP5</td>
+<td>int(0) int(2)</td>
+</tr>
+<tr>
+<td>PHP7</td>
+<td>int(0) int(2)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li style="list-style: none"><input type="checkbox" checked> 对简单对象plain(non-Traversable)的循环</li>
+<li><p>在简单对象的循环, 不管是按照值循环还是引用循环, 和按照引用对数组循环的行为是一样的, 不过对位置的管理会更加精确</p>
+</li>
+<li><p>[x] 对迭代对象(Traversable objects)对象行为和之前一致</p>
+</li>
+</ul>
+<p><code>stackoverflow</code> 上面的解释, Traversable objects is one that implements Iterator or IteratorAggregate interface</p>
+<p>如果一个对象实现了 <code>Iterator</code> 或者 <code>IteratorAggregate</code> 接口, 即可称之为迭代对象</p>
+<hr>
+<p>foreach 虽然简单, 不过它可能出现一些意外行为， 特别是代码涉及到引用的时候。</p>
+<h3 id="问题一-如下代码运行结果为何不是-2-4-6"><a href="#问题一-如下代码运行结果为何不是-2-4-6" class="headerlink" title="问题一: 如下代码运行结果为何不是 2/4/6 ?"></a>问题一: 如下代码运行结果为何不是 2/4/6 ?</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span> ($arr <span class="keyword">as</span> $k =&gt; &amp;$v) &#123;</span><br><span class="line">    $v = $v * <span class="number">2</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span> ($arr <span class="keyword">as</span> $k =&gt; $v) &#123;</span><br><span class="line">    <span class="keyword">echo</span> $v, PHP_EOL;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">输出:</span></span><br><span class="line"><span class="comment">    2</span></span><br><span class="line"><span class="comment">    4</span></span><br><span class="line"><span class="comment">    4</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<p>我们可以认为 <code>foreach($arr as &amp;$v)</code> 结构隐含了如下操作, 分别将数组当前的 <code>键</code> 和 <code>值</code> 赋值给 <code>$k</code> 和 <code>$v</code>. 具体展开形如:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">foreach ($arr as $k =&gt; $v) &#123;</span><br><span class="line">    $k = currentKey();</span><br><span class="line">    $v = currentVal();</span><br><span class="line">    // 继续运行用户代码</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>根据上述理论, 现在我们重新来分析下第一个<code>foreach</code>:<br>循环 | 备注 | $arr值<br>—|—|—<br>循环 1-1 | 由于<code>$v</code>是一个引用, 因此 <code>$v = &amp;$arr[0]</code>, <code>$v = $v * 2</code> 相当于 <code>$arr[0] * 2</code> | [2, 2, 3]<br>循环 1-2 | <code>$v = &amp;$arr[1]</code> | [2, 4, 3]<br>循环 1-3 | <code>$v = &amp;$arr[2]</code> | [2, 4, 6]<br>循环 2-1 | 隐含操作 <code>$v = $arr[0]</code> 被触发, 由于此时 <code>$v</code> 仍是 <code>$arr[2]</code> 的引用, 相当于 <code>$arr[2] = $arr[0]</code> | [2, 4, 2]<br>循环 2-2 | <code>$v = $arr[1]</code>, 即<code>$arr[2] = $arr[1]</code> | [2, 4, 4]<br>循环 2-3 | <code>$v = $arr[2]</code>, 即<code>$arr[2] = $arr[2]</code> | [2, 4, 4]</p>
+<p>如何解决此类问题呢? PHP手册上有一段提醒:</p>
+<blockquote>
+<p>Warning: 数组最后一个元素的 $value 引用在 foreach 循环之后仍会保留。建议使用 unset() 来将其销毁。</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span> ($arr <span class="keyword">as</span> $k =&gt; &amp;$v) &#123;</span><br><span class="line">    $v = $v * <span class="number">2</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">unset</span>($v);</span><br><span class="line"><span class="keyword">foreach</span> ($arr <span class="keyword">as</span> $k =&gt; $v) &#123;</span><br><span class="line">    <span class="keyword">echo</span> $v, PHP_EOL;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">输出:</span></span><br><span class="line"><span class="comment">    2</span></span><br><span class="line"><span class="comment">    4</span></span><br><span class="line"><span class="comment">    6</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<p>从这个问题可以看出, 引用很可能会伴随副作用。如果不希望无意识的修改导致数据内容变更， 最好及时unset掉这些引用。</p>
+<h3 id="问题二-如下代码运行结果为何不是-0-gt-a-1-gt-b-2-gt-c"><a href="#问题二-如下代码运行结果为何不是-0-gt-a-1-gt-b-2-gt-c" class="headerlink" title="问题二: 如下代码运行结果为何不是 0=&gt;a 1=&gt;b 2=&gt;c"></a>问题二: 如下代码运行结果为何不是 0=&gt;a 1=&gt;b 2=&gt;c</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$arr = [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span> ($arr <span class="keyword">as</span> $k =&gt; $v) &#123;</span><br><span class="line">    <span class="keyword">echo</span> key($arr), <span class="string">"=&gt;"</span>, current($arr), PHP_EOL;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span> ($arr <span class="keyword">as</span> $k =&gt; &amp;$v) &#123;</span><br><span class="line">    <span class="keyword">echo</span> key($arr), <span class="string">"=&gt;"</span>, current($arr), PHP_EOL;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">#php5.6</span></span><br><span class="line"><span class="comment">1=&gt;b 1=&gt;b 1=&gt;b</span></span><br><span class="line"><span class="comment">1=&gt;b 2=&gt;c =&gt;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">#php7</span></span><br><span class="line"><span class="comment">0=&gt;a 0=&gt;a 0=&gt;a</span></span><br><span class="line"><span class="comment">0=&gt;a 0=&gt;a 0=&gt;a</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<p>按照手册中的说法, key和current分别是获取数据中当前元素的键值。<br>那为何 <code>key($arr)</code> 一直是0，<code>current($arr)</code> 一直是’a’呢？</p>
+<p>先用vld查看编译后的 <code>opcode</code>:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">➜  demo /usr/local/Cellar/php/7.2.7/bin/php -dvld.active=1 a.php</span><br><span class="line">Finding entry points</span><br><span class="line">Branch analysis from position: 0</span><br><span class="line">Jump found. (Code = 77) Position 1 = 2, Position 2 = 15</span><br><span class="line">Branch analysis from position: 2</span><br><span class="line">Jump found. (Code = 78) Position 1 = 3, Position 2 = 15</span><br><span class="line">Branch analysis from position: 3</span><br><span class="line">Jump found. (Code = 42) Position 1 = 2</span><br><span class="line">Branch analysis from position: 2</span><br><span class="line">Branch analysis from position: 15</span><br><span class="line">Jump found. (Code = 62) Position 1 = -2</span><br><span class="line">Branch analysis from position: 15</span><br><span class="line">filename:       /Users/jianyong/demo/a.php</span><br><span class="line">function name:  (null)</span><br><span class="line">number of ops:  17</span><br><span class="line">compiled vars:  !0 = $arr, !1 = $v, !2 = $k</span><br><span class="line">line     #* E I O op                           fetch          ext  return  operands</span><br><span class="line">-------------------------------------------------------------------------------------</span><br><span class="line">   2     0  E &gt;   ASSIGN                                                   !0, &lt;array&gt;</span><br><span class="line">   4     1      &gt; FE_RESET_R                                       $4      !0, -&gt;15</span><br><span class="line">         2    &gt; &gt; FE_FETCH_R                                       ~5      $4, !1, -&gt;15</span><br><span class="line">         3    &gt;   ASSIGN                                                   !2, ~5</span><br><span class="line">   5     4        INIT_FCALL                                               &apos;key&apos;</span><br><span class="line">         5        SEND_VAR                                                 !0</span><br><span class="line">         6        DO_ICALL                                         $7</span><br><span class="line">         7        ECHO                                                     $7</span><br><span class="line">         8        ECHO                                                     &apos;%3D%3E&apos;</span><br><span class="line">         9        INIT_FCALL                                               &apos;current&apos;</span><br><span class="line">        10        SEND_VAR                                                 !0</span><br><span class="line">        11        DO_ICALL                                         $8</span><br><span class="line">        12        ECHO                                                     $8</span><br><span class="line">        13        ECHO                                                     &apos;%0A&apos;</span><br><span class="line">        14      &gt; JMP                                                      -&gt;2</span><br><span class="line">        15    &gt;   FE_FREE                                                  $4</span><br><span class="line">   7    16      &gt; RETURN                                                   1</span><br><span class="line"></span><br><span class="line">branch: #  0; line:     2-    4; sop:     0; eop:     1; out1:   2; out2:  15</span><br><span class="line">branch: #  2; line:     4-    4; sop:     2; eop:     2; out1:   3; out2:  15</span><br><span class="line">branch: #  3; line:     4-    5; sop:     3; eop:    14; out1:   2</span><br><span class="line">branch: # 15; line:     5-    7; sop:    15; eop:    16; out1:  -2</span><br><span class="line">path #1: 0, 2, 3, 2, 15,</span><br><span class="line">path #2: 0, 2, 15,</span><br><span class="line">path #3: 0, 15,</span><br><span class="line">0=&gt;a</span><br><span class="line">0=&gt;a</span><br><span class="line">0=&gt;a</span><br></pre></td></tr></table></figure></p>
+<p><strong>// 待补充</strong></p>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ul>
+<li><a href="https://wiki.php.net/rfc/php7_foreach" target="_blank" rel="noopener">https://wiki.php.net/rfc/php7_foreach</a></li>
+<li><a href="http://git.php.net/?p=php-src.git;a=commitdiff;h=97fe15db4356f8fa1b3b8eb9bb1baa8141376077" target="_blank" rel="noopener">97fe15db4356f8fa1b3b8eb9bb1baa8141376077</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/11/PHP扩展安装/" rel="next" title="PHP扩展安装">
+                <i class="fa fa-chevron-left"></i> PHP扩展安装
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/24/字符串查找/" rel="prev" title="字符串查找">
+                字符串查找 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">jianyong</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#PHP7-新特性-foreach-修改"><span class="nav-number">1.</span> <span class="nav-text">PHP7 新特性 foreach 修改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题一-如下代码运行结果为何不是-2-4-6"><span class="nav-number">2.</span> <span class="nav-text">问题一: 如下代码运行结果为何不是 2/4/6 ?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题二-如下代码运行结果为何不是-0-gt-a-1-gt-b-2-gt-c"><span class="nav-number">3.</span> <span class="nav-text">问题二: 如下代码运行结果为何不是 0=&gt;a 1=&gt;b 2=&gt;c</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#参考"><span class="nav-number">3.1.</span> <span class="nav-text">参考</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jianyong</span>
+
+  
+</div>
+
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+  </span>
+  </div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
