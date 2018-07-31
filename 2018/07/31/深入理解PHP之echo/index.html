@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="php," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1、概述echo 作为PHP中的语言结构, 经常会被使用, 因此了解他的实现还是有必要的.    版本 源码地址     PHP-7.2.8 https://github.com/php/php-src/tree/PHP-7.2.8/    2、官方文档(php.net)2.1 输出一个或多个字符串1void echo ( string $arg1 [, string $... ] )  文档地址">
+<meta name="keywords" content="php">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入理解PHP之echo">
+<meta property="og:url" content="https://jianyong.github.io/2018/07/31/深入理解PHP之echo/index.html">
+<meta property="og:site_name" content="行易难">
+<meta property="og:description" content="1、概述echo 作为PHP中的语言结构, 经常会被使用, 因此了解他的实现还是有必要的.    版本 源码地址     PHP-7.2.8 https://github.com/php/php-src/tree/PHP-7.2.8/    2、官方文档(php.net)2.1 输出一个或多个字符串1void echo ( string $arg1 [, string $... ] )  文档地址">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/php/zend_language_parse.png?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/php/zend_startup.png?x-oss-process=style/all">
+<meta property="og:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/php/php-echo-no.png?x-oss-process=style/all">
+<meta property="og:updated_time" content="2018-07-31T13:49:58.328Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深入理解PHP之echo">
+<meta name="twitter:description" content="1、概述echo 作为PHP中的语言结构, 经常会被使用, 因此了解他的实现还是有必要的.    版本 源码地址     PHP-7.2.8 https://github.com/php/php-src/tree/PHP-7.2.8/    2、官方文档(php.net)2.1 输出一个或多个字符串1void echo ( string $arg1 [, string $... ] )  文档地址">
+<meta name="twitter:image" content="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/php/zend_language_parse.png?x-oss-process=style/all">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://jianyong.github.io/2018/07/31/深入理解PHP之echo/"/>
+
+
+
+
+
+  <title>深入理解PHP之echo | 行易难</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">行易难</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jianyong.github.io/2018/07/31/深入理解PHP之echo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="jianyong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行易难">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">深入理解PHP之echo</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-31T21:49:06+08:00">
+                2018-07-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="1、概述"><a href="#1、概述" class="headerlink" title="1、概述"></a>1、概述</h2><p><code>echo</code> 作为PHP中的语言结构, 经常会被使用, 因此了解他的实现还是有必要的.</p>
+<table>
+<thead>
+<tr>
+<th>版本</th>
+<th>源码地址</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PHP-7.2.8</code></td>
+<td><a href="https://github.com/php/php-src/tree/PHP-7.2.8/" target="_blank" rel="noopener">https://github.com/php/php-src/tree/PHP-7.2.8/</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="2、官方文档-php-net"><a href="#2、官方文档-php-net" class="headerlink" title="2、官方文档(php.net)"></a>2、官方文档(php.net)</h2><h3 id="2-1-输出一个或多个字符串"><a href="#2-1-输出一个或多个字符串" class="headerlink" title="2.1 输出一个或多个字符串"></a>2.1 输出一个或多个字符串</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">void <span class="keyword">echo</span> ( string $arg1 [, string $... ] )</span><br></pre></td></tr></table></figure>
+<ul>
+<li><a href="http://php.net/manual/zh/function.echo.php" target="_blank" rel="noopener">文档地址</a></li>
+</ul>
+<h3 id="2-2-说明"><a href="#2-2-说明" class="headerlink" title="2.2 说明"></a>2.2 说明</h3><blockquote>
+<p><code>echo</code> 不是一个函数，是一个PHP的语言结构，因此不一定要使用小括号来指明参数，单引号、双引号都行.<br><code>echo</code> 不表现得像一个函数，所以不能总是使用一个函数的上下文。<br><code>echo</code> 输出多个字符串的时候， 不能使用小括号。<br><code>echo</code> 在php.ini中启用 <code>short_open_tag</code> 时，有一个快捷用法（view层）<code>&lt;?= &#39;Hello World&#39;; ?&gt;</code><br><code>echo</code> 和 <code>print</code> 最主要的不同之处是， <code>echo</code> 接受参数列表，并且没有返回值。</p>
+</blockquote>
+<h3 id="2-3-注释"><a href="#2-3-注释" class="headerlink" title="2.3 注释"></a>2.3 注释</h3><blockquote>
+<p>Note: 因为是一个语言构造器而不是一个函数，不能被 可变函数 调用。</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Tip</span></span><br><span class="line"><span class="comment"> * 相对 echo 中拼接字符串而言，传递多个参数比较好，考虑到了 PHP 中连接运算符（“.”）的优先级。 传入多个参数，不需要圆括号保证优先级：</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">"Sum: "</span>, <span class="number">1</span> + <span class="number">2</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"Hello "</span>, <span class="keyword">isset</span>($name) ? $name : <span class="string">"John Doe"</span>, <span class="string">"!"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** Tip</span></span><br><span class="line"><span class="comment"> * 如果是拼接的，相对于加号和三目元算符，连接运算符（“.”）具有更高优先级。为了正确性，必须使用圆括号：</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">'Sum: '</span> . (<span class="number">1</span> + <span class="number">2</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">'Hello '</span> . (<span class="keyword">isset</span>($name) ? $name : <span class="string">'John Doe'</span>) . <span class="string">'!'</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="3、应用"><a href="#3、应用" class="headerlink" title="3、应用"></a>3、应用</h2><h3 id="3-1-输出基本数据类型"><a href="#3-1-输出基本数据类型" class="headerlink" title="3.1 输出基本数据类型"></a>3.1 输出基本数据类型</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">echo 123, &apos;abc&apos;, [12, 34];  // 123abcArray</span><br><span class="line"></span><br><span class="line">echo &quot;Sum: &quot;, 1 + 2; // Sum: 3</span><br><span class="line">echo &apos;Sum: &apos; . (1 + 2); // Sum: 3</span><br><span class="line"></span><br><span class="line">echo &quot;Hello &quot;, isset($name) ? $name : &quot;John Doe&quot;, &quot;!&quot;; // Hello John Doe!</span><br><span class="line">echo &apos;Hello &apos; . (isset($name) ? $name : &apos;John Doe&apos;) . &apos;!&apos;; // Hello John Doe!</span><br></pre></td></tr></table></figure>
+<h3 id="3-2-输出对象类型"><a href="#3-2-输出对象类型" class="headerlink" title="3.2 输出对象类型"></a>3.2 输出对象类型</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Customer</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">say</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">'Hello World'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> (<span class="keyword">new</span> Customer());</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Catchable fatal error: Object of class Customer could not be converted to string in /usercode/file.php on line 8</p>
+</blockquote>
+<p>输出对象时汇报以上错误, 所以如果需要输出对象, 一定要在其内部实现 <code>__toString()</code>。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Customer</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">say</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">'Hello World'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * __toString() 方法用于一个类被当成字符串时应怎样回应。例如 echo $obj; 应该显示些什么。此方法必须返回一个字符串，否则将发出一条 E_RECOVERABLE_ERROR 级别的致命错误。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__toString</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;say();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> (<span class="keyword">new</span> Customer()); <span class="comment">// Hello World</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-3-输出资源类型"><a href="#3-3-输出资源类型" class="headerlink" title="3.3 输出资源类型"></a>3.3 输出资源类型</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo tmpfile(); // Resource id #1</span><br></pre></td></tr></table></figure>
+<h2 id="4、源码"><a href="#4、源码" class="headerlink" title="4、源码"></a>4、源码</h2><h3 id="4-1-源码概述"><a href="#4-1-源码概述" class="headerlink" title="4.1 源码概述"></a>4.1 源码概述</h3><p><code>php</code> 是一门脚本语言, 所以所有的符号都会先经过词法解析和语法解析阶段, 这两个阶段由<code>lex</code> &amp; <code>yacc</code> 完成。</p>
+<blockquote>
+<p>在计算机科学里面，<code>lex</code>是一个产生词法分析器的程序。 <code>Lex</code>常常与<code>yacc</code> 语法分析器产生程序一起使用。<code>Lex</code>是许多<code>UNIX系统</code>的标准词法分析器产生程序，而且这个工具所作的行为被详列为<code>POSIX标准</code>的一部分。 <code>Lex</code>读进一个代表词法分析器规则的输入字符串流，然后输出以C语言实做的词法分析器源代码。 –<a href="https://zh.wikipedia.org/wiki/Lex" target="_blank" rel="noopener">维基百科</a></p>
+</blockquote>
+<p>对应的文件在 <code>Zend/zend_language_parser.y</code> 和 <code>Zend/zend_language_scanner.l</code>。</p>
+<h3 id="4-2-字符转标记-Zend-zend-language-scanner-l"><a href="#4-2-字符转标记-Zend-zend-language-scanner-l" class="headerlink" title="4.2 字符转标记(Zend/zend_language_scanner.l)"></a>4.2 字符转标记(Zend/zend_language_scanner.l)</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;ST_IN_SCRIPTING&gt;<span class="string">"echo"</span> &#123;</span><br><span class="line">	RETURN_TOKEN(T_ECHO);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>ZEND引擎在读取一个PHP文件之后会先进行词法分析，就是用lex扫描，把对应的PHP字符转换成相应的标记（也叫token)，比如 <code>echo $a;</code> 在碰到这句首先会匹配到<code>echo</code>，符合上面的规则，然后就返回一个 <code>T_ECHO</code> 标记，这个在后面的语法分析会用上，也就是在 <code>zend_language_parser.y</code> 文件中</p>
+<h3 id="4-3-语法分析-Zend-zend-language-parser-y"><a href="#4-3-语法分析-Zend-zend-language-parser-y" class="headerlink" title="4.3 语法分析(Zend/zend_language_parser.y)"></a>4.3 语法分析(Zend/zend_language_parser.y)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"># %token Token就是一个个的“词块”</span><br><span class="line">%token T_ECHO       &quot;echo (T_ECHO)&quot;</span><br><span class="line"></span><br><span class="line"># statement T_ECHO echo_expr_list</span><br><span class="line">statement:</span><br><span class="line">		&apos;&#123;&apos; inner_statement_list &apos;&#125;&apos; &#123; $$ = $2; &#125;</span><br><span class="line">	|	if_stmt &#123; $$ = $1; &#125;</span><br><span class="line">	|	alt_if_stmt &#123; $$ = $1; &#125;</span><br><span class="line">	|	T_WHILE &apos;(&apos; expr &apos;)&apos; while_statement</span><br><span class="line">			&#123; $$ = zend_ast_create(ZEND_AST_WHILE, $3, $5); &#125;</span><br><span class="line">	|	T_DO statement T_WHILE &apos;(&apos; expr &apos;)&apos; &apos;;&apos;</span><br><span class="line">			&#123; $$ = zend_ast_create(ZEND_AST_DO_WHILE, $2, $5); &#125;</span><br><span class="line">	|	T_FOR &apos;(&apos; for_exprs &apos;;&apos; for_exprs &apos;;&apos; for_exprs &apos;)&apos; for_statement</span><br><span class="line">			&#123; $$ = zend_ast_create(ZEND_AST_FOR, $3, $5, $7, $9); &#125;</span><br><span class="line">	|	T_SWITCH &apos;(&apos; expr &apos;)&apos; switch_case_list</span><br><span class="line">			&#123; $$ = zend_ast_create(ZEND_AST_SWITCH, $3, $5); &#125;</span><br><span class="line">	|	T_BREAK optional_expr &apos;;&apos;		&#123; $$ = zend_ast_create(ZEND_AST_BREAK, $2); &#125;</span><br><span class="line">	|	T_CONTINUE optional_expr &apos;;&apos;	&#123; $$ = zend_ast_create(ZEND_AST_CONTINUE, $2); &#125;</span><br><span class="line">	|	T_RETURN optional_expr &apos;;&apos;		&#123; $$ = zend_ast_create(ZEND_AST_RETURN, $2); &#125;</span><br><span class="line">	|	T_GLOBAL global_var_list &apos;;&apos;	&#123; $$ = $2; &#125;</span><br><span class="line">	|	T_STATIC static_var_list &apos;;&apos;	&#123; $$ = $2; &#125;</span><br><span class="line">	|	T_ECHO echo_expr_list &apos;;&apos;		&#123; $$ = $2; &#125;</span><br><span class="line">	|	T_INLINE_HTML &#123; $$ = zend_ast_create(ZEND_AST_ECHO, $1); &#125;</span><br><span class="line">	|	expr &apos;;&apos; &#123; $$ = $1; &#125;</span><br><span class="line">	|	T_UNSET &apos;(&apos; unset_variables &apos;)&apos; &apos;;&apos; &#123; $$ = $3; &#125;</span><br><span class="line">	|	T_FOREACH &apos;(&apos; expr T_AS foreach_variable &apos;)&apos; foreach_statement</span><br><span class="line">			&#123; $$ = zend_ast_create(ZEND_AST_FOREACH, $3, $5, NULL, $7); &#125;</span><br><span class="line">	|	T_FOREACH &apos;(&apos; expr T_AS foreach_variable T_DOUBLE_ARROW foreach_variable &apos;)&apos;</span><br><span class="line">		foreach_statement</span><br><span class="line">			&#123; $$ = zend_ast_create(ZEND_AST_FOREACH, $3, $7, $5, $9); &#125;</span><br><span class="line">	|	T_DECLARE &apos;(&apos; const_list &apos;)&apos;</span><br><span class="line">			&#123; zend_handle_encoding_declaration($3); &#125;</span><br><span class="line">		declare_statement</span><br><span class="line">			&#123; $$ = zend_ast_create(ZEND_AST_DECLARE, $3, $6); &#125;</span><br><span class="line">	|	&apos;;&apos;	/* empty statement */ &#123; $$ = NULL; &#125;</span><br><span class="line">	|	T_TRY &apos;&#123;&apos; inner_statement_list &apos;&#125;&apos; catch_list finally_statement</span><br><span class="line">			&#123; $$ = zend_ast_create(ZEND_AST_TRY, $3, $5, $6); &#125;</span><br><span class="line">	|	T_THROW expr &apos;;&apos; &#123; $$ = zend_ast_create(ZEND_AST_THROW, $2); &#125;</span><br><span class="line">	|	T_GOTO T_STRING &apos;;&apos; &#123; $$ = zend_ast_create(ZEND_AST_GOTO, $2); &#125;</span><br><span class="line">	|	T_STRING &apos;:&apos; &#123; $$ = zend_ast_create(ZEND_AST_LABEL, $1); &#125;</span><br><span class="line">;</span><br></pre></td></tr></table></figure>
+<p>在 <code>statement</code> 看到了 <code>T_ECHO</code>, 后面跟着 <code>echo_expr_list</code>，再搜这个字符串，找到如下代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># echo_expr_list</span><br><span class="line">echo_expr_list:</span><br><span class="line">    echo_expr_list &apos;,&apos; echo_expr &#123; $$ = zend_ast_list_add($1, $3); &#125;</span><br><span class="line">  | echo_expr &#123; $$ = zend_ast_create_list(1, ZEND_AST_STMT_LIST, $1); &#125;</span><br><span class="line">;</span><br><span class="line"></span><br><span class="line">echo_expr:</span><br><span class="line">  expr &#123; $$ = zend_ast_create(ZEND_AST_ECHO, $1); &#125;</span><br><span class="line">;</span><br><span class="line"></span><br><span class="line">expr:</span><br><span class="line">    variable              &#123; $$ = $1; &#125;</span><br><span class="line">  | expr_without_variable &#123; $$ = $1; &#125;</span><br><span class="line">;</span><br></pre></td></tr></table></figure></p>
+<p>词法分析后得到单独存在的词块不能表达完整的语义，还需要借助规则进行组织串联。语法分析器就是这个组织者。它会检查语法、匹配Token，对Token进行关联。PHP7中，组织串联的产物就是抽象语法树（<code>Abstract Syntax Tree</code>，<code>AST</code>）, 详情请查看相关源码: <a href="https://github.com/php/php-src/blob/PHP-7.2.8/Zend/zend_ast.c" target="_blank" rel="noopener">抽象语法树（Abstract Syntax Tree，AST）</a></p>
+<p>这么看比较难理解，接下来我们从一个简单的例子看下最终生成的语法树。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$a = <span class="number">123</span>;</span><br><span class="line">$b = <span class="string">"hi~"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> $a,$b;</span><br></pre></td></tr></table></figure>
+<p>具体解析过程这里不再解释，有兴趣的可以翻下zend_language_parse.y中，这个过程不太容易理解，需要多领悟几遍，最后生成的ast如下图：<br><img src="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/php/zend_language_parse.png?x-oss-process=style/all" alt="phpecho"></p>
+<h3 id="4-4-模块初始化-main-main-c"><a href="#4-4-模块初始化-main-main-c" class="headerlink" title="4.4 模块初始化(main/main.c)"></a>4.4 模块初始化(main/main.c)</h3><p>通过 <code>write_function</code> 绑定PHP输出函 数<code>php_output_wrapper</code> 至 <code>zend_utility_functions</code>结构体, 此结构体会在xx被使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"># php_module_startup</span><br><span class="line"></span><br><span class="line">zend_utility_functions zuf;</span><br><span class="line"></span><br><span class="line">// ...</span><br><span class="line"></span><br><span class="line">gc_globals_ctor();</span><br><span class="line"></span><br><span class="line">zuf.error_function = php_error_cb;</span><br><span class="line">zuf.printf_function = php_printf;</span><br><span class="line">zuf.write_function = php_output_wrapper;</span><br><span class="line">zuf.fopen_function = php_fopen_wrapper_for_zend;</span><br><span class="line">zuf.message_handler = php_message_handler_for_zend;</span><br><span class="line">zuf.get_configuration_directive = php_get_configuration_directive_for_zend;</span><br><span class="line">zuf.ticks_function = php_run_ticks;</span><br><span class="line">zuf.on_timeout = php_on_timeout;</span><br><span class="line">zuf.stream_open_function = php_stream_open_for_zend;</span><br><span class="line">zuf.printf_to_smart_string_function = php_printf_to_smart_string;</span><br><span class="line">zuf.printf_to_smart_str_function = php_printf_to_smart_str;</span><br><span class="line">zuf.getenv_function = sapi_getenv;</span><br><span class="line">zuf.resolve_path_function = php_resolve_path_for_zend;</span><br><span class="line">zend_startup(&amp;zuf, NULL);</span><br></pre></td></tr></table></figure></p>
+<p><code>zuf</code> 是一个 <code>zend_utility_functions</code> 结构体，这样就把<code>php_output_wrapper</code>函数传给了<code>zuf.write_function</code>，后面还有好几层包装，最后的实现也是在<code>main/main.c</code>文件里面实现的，是下面这个函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/* &#123;&#123;&#123; php_output_wrapper</span><br><span class="line"> */</span><br><span class="line">static size_t php_output_wrapper(const char *str, size_t str_length)</span><br><span class="line">&#123;</span><br><span class="line">	return php_output_write(str, str_length);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在 <code>php_out_wrapper</code> 中调用的 <code>php_output_write</code> 在 <code>main/output.c</code> 中实现, 实现代码如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">/* &#123;&#123;&#123; int php_output_write(const char *str, size_t len)</span><br><span class="line"> * Buffered write </span><br><span class="line"> * #define PHP_OUTPUT_ACTIVATED        0x100000 </span><br><span class="line"> * 当flags=PHP_OUTPUT_ACTIVATED，会调用sapi_module.ub_write输出, 每个SAPI都有自已的实现, cli中是调用sapi_cli_single_write()</span><br><span class="line"> *  php_output_write(); //输出，有buffer, 调用php_output_op()</span><br><span class="line"> *  php_output_write_unbuffered();//输出，没有buffer，调用PHP_OUTPUT_ACTIVATED，会调用sapi_module.ub_write</span><br><span class="line"> *  php_output_set_status(); //用于SAPI设置output.flags</span><br><span class="line"> *  php_output_get_status(); //获取output.flags的值</span><br><span class="line"> */</span><br><span class="line">PHPAPI size_t php_output_write(const char *str, size_t len)</span><br><span class="line">&#123;</span><br><span class="line">	if (OG(flags) &amp; PHP_OUTPUT_ACTIVATED) &#123;</span><br><span class="line">		php_output_op(PHP_OUTPUT_HANDLER_WRITE, str, len);</span><br><span class="line">		return len;</span><br><span class="line">	&#125;</span><br><span class="line">	if (OG(flags) &amp; PHP_OUTPUT_DISABLED) &#123;</span><br><span class="line">		return 0;</span><br><span class="line">	&#125;</span><br><span class="line">	return php_output_direct(str, len);</span><br><span class="line">&#125;</span><br><span class="line">/* &#125;&#125;&#125; */</span><br></pre></td></tr></table></figure></p>
+<h3 id="4-5-输出的终点-main-output-c-fwrite函数"><a href="#4-5-输出的终点-main-output-c-fwrite函数" class="headerlink" title="4.5 输出的终点(main/output.c fwrite函数)"></a>4.5 输出的终点(main/output.c fwrite函数)</h3><p><strong>不调用sapi_module的输出</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">static size_t (*php_output_direct)(const char *str, size_t str_len) = php_output_stderr;</span><br><span class="line"></span><br><span class="line">static size_t php_output_stderr(const char *str, size_t str_len)</span><br><span class="line">&#123;</span><br><span class="line">	fwrite(str, 1, str_len, stderr);</span><br><span class="line">/* See http://support.microsoft.com/kb/190351 */</span><br><span class="line">#ifdef PHP_WIN32</span><br><span class="line">	fflush(stderr);</span><br><span class="line">#endif</span><br><span class="line">	return str_len;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>调用sapi_module的输出</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sapi_module.ub_write(context.out.data, context.out.used);</span><br><span class="line"></span><br><span class="line">if (OG(flags) &amp; PHP_OUTPUT_IMPLICITFLUSH) &#123;</span><br><span class="line">	sapi_flush();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>php_output_op</code> 详细实现如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">/* &#123;&#123;&#123; static void php_output_op(int op, const char *str, size_t len)</span><br><span class="line"> * Output op dispatcher, passes input and output handlers output through the output handler stack until it gets written to the SAPI </span><br><span class="line"> */</span><br><span class="line">static inline void php_output_op(int op, const char *str, size_t len)</span><br><span class="line">&#123;</span><br><span class="line">	php_output_context context;</span><br><span class="line">	php_output_handler **active;</span><br><span class="line">	int obh_cnt;</span><br><span class="line"></span><br><span class="line">	if (php_output_lock_error(op)) &#123;</span><br><span class="line">		return;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	php_output_context_init(&amp;context, op);</span><br><span class="line"></span><br><span class="line">	/*</span><br><span class="line">	 * broken up for better performance:</span><br><span class="line">	 *  - apply op to the one active handler; note that OG(active) might be popped off the stack on a flush</span><br><span class="line">	 *  - or apply op to the handler stack</span><br><span class="line">	 */</span><br><span class="line">	if (OG(active) &amp;&amp; (obh_cnt = zend_stack_count(&amp;OG(handlers)))) &#123;</span><br><span class="line">		context.in.data = (char *) str;</span><br><span class="line">		context.in.used = len;</span><br><span class="line"></span><br><span class="line">		if (obh_cnt &gt; 1) &#123;</span><br><span class="line">			zend_stack_apply_with_argument(&amp;OG(handlers), ZEND_STACK_APPLY_TOPDOWN, php_output_stack_apply_op, &amp;context);</span><br><span class="line">		&#125; else if ((active = zend_stack_top(&amp;OG(handlers))) &amp;&amp; (!((*active)-&gt;flags &amp; PHP_OUTPUT_HANDLER_DISABLED))) &#123;</span><br><span class="line">			php_output_handler_op(*active, &amp;context);</span><br><span class="line">		&#125; else &#123;</span><br><span class="line">			php_output_context_pass(&amp;context);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125; else &#123;</span><br><span class="line">		context.out.data = (char *) str;</span><br><span class="line">		context.out.used = len;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	if (context.out.data &amp;&amp; context.out.used) &#123;</span><br><span class="line">		php_output_header();</span><br><span class="line"></span><br><span class="line">		if (!(OG(flags) &amp; PHP_OUTPUT_DISABLED)) &#123;</span><br><span class="line">#if PHP_OUTPUT_DEBUG</span><br><span class="line">			fprintf(stderr, &quot;::: sapi_write(&apos;%s&apos;, %zu)\n&quot;, context.out.data, context.out.used);</span><br><span class="line">#endif</span><br><span class="line">			sapi_module.ub_write(context.out.data, context.out.used);</span><br><span class="line"></span><br><span class="line">			if (OG(flags) &amp; PHP_OUTPUT_IMPLICITFLUSH) &#123;</span><br><span class="line">				sapi_flush();</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			OG(flags) |= PHP_OUTPUT_SENT;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	php_output_context_dtor(&amp;context);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>以上了解了PHP输出函数的实现, 接下来了解echo实现.</p>
+<h3 id="4-6-输出动作的ZEND引擎实现-Zend-zend-vm-def-h"><a href="#4-6-输出动作的ZEND引擎实现-Zend-zend-vm-def-h" class="headerlink" title="4.6 输出动作的ZEND引擎实现(Zend/zend_vm_def.h)"></a>4.6 输出动作的ZEND引擎实现(Zend/zend_vm_def.h)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">ZEND_VM_HANDLER(40, ZEND_ECHO, CONST|TMPVAR|CV, ANY)</span><br><span class="line">&#123;</span><br><span class="line">	USE_OPLINE</span><br><span class="line">	zend_free_op free_op1;</span><br><span class="line">	zval *z;</span><br><span class="line"></span><br><span class="line">	SAVE_OPLINE();</span><br><span class="line">	z = GET_OP1_ZVAL_PTR_UNDEF(BP_VAR_R);</span><br><span class="line"></span><br><span class="line">	if (Z_TYPE_P(z) == IS_STRING) &#123;</span><br><span class="line">		zend_string *str = Z_STR_P(z);</span><br><span class="line"></span><br><span class="line">		if (ZSTR_LEN(str) != 0) &#123;</span><br><span class="line">			zend_write(ZSTR_VAL(str), ZSTR_LEN(str));</span><br><span class="line">		&#125;</span><br><span class="line">	&#125; else &#123;</span><br><span class="line">		zend_string *str = _zval_get_string_func(z);</span><br><span class="line"></span><br><span class="line">		if (ZSTR_LEN(str) != 0) &#123;</span><br><span class="line">			zend_write(ZSTR_VAL(str), ZSTR_LEN(str));</span><br><span class="line">		&#125; else if (OP1_TYPE == IS_CV &amp;&amp; UNEXPECTED(Z_TYPE_P(z) == IS_UNDEF)) &#123;</span><br><span class="line">			GET_OP1_UNDEF_CV(z, BP_VAR_R);</span><br><span class="line">		&#125;</span><br><span class="line">		zend_string_release(str);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	FREE_OP1();</span><br><span class="line">	ZEND_VM_NEXT_OPCODE_CHECK_EXCEPTION();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到在 <code>zend vm</code> 中通过调用<code>zend_write</code>来实现输出，接下来看下<code>zend_write</code>的实现。</p>
+<h3 id="4-7-zend-write实现-Zend-zend-c"><a href="#4-7-zend-write实现-Zend-zend-c" class="headerlink" title="4.7 zend_write实现(Zend/zend.c)"></a>4.7 zend_write实现(Zend/zend.c)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># Zend/zend.h</span><br><span class="line">typedef int (*zend_write_func_t)(const char *str, size_t str_length);</span><br><span class="line"></span><br><span class="line"># Zend/zend.c</span><br><span class="line">ZEND_API zend_write_func_t zend_write;</span><br><span class="line"></span><br><span class="line"># 如下图所示, zend_write的初始化是在zend_startup()函数里面，这是zend引擎启动的时候需要做的一些初始化工作，有下面一句：</span><br><span class="line"></span><br><span class="line">zend_write = (zend_write_func_t) utility_functions-&gt;write_function; // php_output_wrapper</span><br></pre></td></tr></table></figure>
+<p><code>zend_utility_functions *utility_functions</code> 在 <code>main/main.c</code> <code>php_module_startup()</code>的 <code>zuf</code>中被定义:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zuf.write_function = php_output_wrapper;</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/php/zend_startup.png?x-oss-process=style/all" alt="phpecho"></p>
+<h2 id="5、php-echo-加速"><a href="#5、php-echo-加速" class="headerlink" title="5、php(echo)加速"></a>5、php(echo)加速</h2><h3 id="5-1-PHP-echo-真的慢么"><a href="#5-1-PHP-echo-真的慢么" class="headerlink" title="5.1 PHP echo 真的慢么?"></a>5.1 PHP echo 真的慢么?</h3><p><img src="https://xynoss.oss-cn-beijing.aliyuncs.com/youdao/php/php-echo-no.png?x-oss-process=style/all" alt="phpecho"></p>
+<p><code>echo</code> 输出大字符串(500K)的时候，执行时间会明显变长，所以会被认为PHP的<code>echo</code>性能很差, 实际上这并不是语言(<code>PHP</code>)问题, 而是一个IO问题(IO的速度限制了输出的速度)。</p>
+<p>但是在某些时候<code>echo</code>执行时间过长, 会影响其他的服务, 进而影响整个系统。</p>
+<p>那么使用 <code>apache</code> 时如何优化使的 <code>echo</code> 变快， 让PHP的请求处理过程尽快结束？</p>
+<h3 id="5-2-还是可以优化的-打开输出缓存"><a href="#5-2-还是可以优化的-打开输出缓存" class="headerlink" title="5.2 还是可以优化的: 打开输出缓存"></a>5.2 还是可以优化的: 打开输出缓存</h3><p><code>echo</code>慢是在等待“写数据”成功返回， 所以可打开输出缓存：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 编辑php.ini</span><br><span class="line">output_buffering = 4096 //bytes</span><br><span class="line"></span><br><span class="line"># 调用ob_start()</span><br><span class="line">ob_start();</span><br><span class="line">echo $hugeString;</span><br><span class="line">ob_end_flush();</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>ob_start()</code> 会开辟一块4096大小的buffer，所以如果 <code>$hugeString</code> 大于 4096，将不会起到加速作用。</p>
+</blockquote>
+<p><code>echo</code> 会立即执行成功返回, 因为数据暂时写到了我们的输出缓存中，如果buffer足够大，那么内容会等到脚本的最后，才一次性的发送给客户端(严格的说是发给webserver)。</p>
+<h2 id="6、输出时的类型转换"><a href="#6、输出时的类型转换" class="headerlink" title="6、输出时的类型转换"></a>6、输出时的类型转换</h2><h3 id="6-1-输出时的类型转换规则"><a href="#6-1-输出时的类型转换规则" class="headerlink" title="6.1 输出时的类型转换规则"></a>6.1 输出时的类型转换规则</h3><table>
+<thead>
+<tr>
+<th>input</th>
+<th>output</th>
+<th>desc</th>
+<th>code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Boolean</td>
+<td>String</td>
+<td>1 或 0</td>
+<td><code>echo true; // 1</code></td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>Integer</td>
+<td>不转换</td>
+<td><code>echo 123; // 123</code></td>
+</tr>
+<tr>
+<td>Float</td>
+<td>Float</td>
+<td>不转换, 注意精度问题</td>
+<td><code>echo 123.234; // 123.234</code></td>
+</tr>
+<tr>
+<td>String</td>
+<td>String</td>
+<td>不转换</td>
+<td><code>echo &#39;abcd&#39;; // abcd</code></td>
+</tr>
+<tr>
+<td>Array</td>
+<td>Array</td>
+<td>-</td>
+<td><code>echo [12, 34];  // Array</code></td>
+</tr>
+<tr>
+<td>Object</td>
+<td>Catchable fatal error</td>
+<td>Object of class stdClass could not be converted to string in file.php on line *</td>
+<td><code>echo json_decode(json_encode([&#39;a&#39; =&gt; &#39;b&#39;]));</code></td>
+</tr>
+<tr>
+<td>Resource</td>
+<td>Resource id #1</td>
+<td>-</td>
+<td><code>echo tmpfile(); // Resource id #1</code></td>
+</tr>
+<tr>
+<td>NULL</td>
+<td>string</td>
+<td>转为空字符串</td>
+<td><code>echo null; // 空字符串</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="6-2-输出时的类型转换源码-Zend-zend-operators-h-amp-Zend-zend-operators-c"><a href="#6-2-输出时的类型转换源码-Zend-zend-operators-h-amp-Zend-zend-operators-c" class="headerlink" title="6.2 输出时的类型转换源码(Zend/zend_operators.h &amp; Zend/zend_operators.c)"></a>6.2 输出时的类型转换源码(Zend/zend_operators.h &amp; Zend/zend_operators.c)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"># Zend/zend_operators.h</span><br><span class="line">ZEND_API zend_string* ZEND_FASTCALL _zval_get_string_func(zval *op);</span><br><span class="line"></span><br><span class="line"># Zend/zend_operators.c</span><br><span class="line">ZEND_API zend_string* ZEND_FASTCALL _zval_get_string_func(zval *op) /* &#123;&#123;&#123; */</span><br><span class="line">&#123;</span><br><span class="line">try_again:</span><br><span class="line">	switch (Z_TYPE_P(op)) &#123;</span><br><span class="line">		case IS_UNDEF:</span><br><span class="line">		case IS_NULL:</span><br><span class="line">		case IS_FALSE:</span><br><span class="line">			return ZSTR_EMPTY_ALLOC();</span><br><span class="line">		case IS_TRUE:</span><br><span class="line">			if (CG(one_char_string)[&apos;1&apos;]) &#123;</span><br><span class="line">				return CG(one_char_string)[&apos;1&apos;];</span><br><span class="line">			&#125; else &#123;</span><br><span class="line">				return zend_string_init(&quot;1&quot;, 1, 0);</span><br><span class="line">			&#125;</span><br><span class="line">		case IS_RESOURCE: &#123;</span><br><span class="line">			char buf[sizeof(&quot;Resource id #&quot;) + MAX_LENGTH_OF_LONG];</span><br><span class="line">			int len;</span><br><span class="line"></span><br><span class="line">			len = snprintf(buf, sizeof(buf), &quot;Resource id #&quot; ZEND_LONG_FMT, (zend_long)Z_RES_HANDLE_P(op));</span><br><span class="line">			return zend_string_init(buf, len, 0);</span><br><span class="line">		&#125;</span><br><span class="line">		case IS_LONG: &#123;</span><br><span class="line">			return zend_long_to_str(Z_LVAL_P(op));</span><br><span class="line">		&#125;</span><br><span class="line">		case IS_DOUBLE: &#123;</span><br><span class="line">			return zend_strpprintf(0, &quot;%.*G&quot;, (int) EG(precision), Z_DVAL_P(op));</span><br><span class="line">		&#125;</span><br><span class="line">		case IS_ARRAY:</span><br><span class="line">			zend_error(E_NOTICE, &quot;Array to string conversion&quot;);</span><br><span class="line">			return zend_string_init(&quot;Array&quot;, sizeof(&quot;Array&quot;)-1, 0);</span><br><span class="line">		case IS_OBJECT: &#123;</span><br><span class="line">			zval tmp;</span><br><span class="line">			if (Z_OBJ_HT_P(op)-&gt;cast_object) &#123;</span><br><span class="line">				if (Z_OBJ_HT_P(op)-&gt;cast_object(op, &amp;tmp, IS_STRING) == SUCCESS) &#123;</span><br><span class="line">					return Z_STR(tmp);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125; else if (Z_OBJ_HT_P(op)-&gt;get) &#123;</span><br><span class="line">				zval *z = Z_OBJ_HT_P(op)-&gt;get(op, &amp;tmp);</span><br><span class="line">				if (Z_TYPE_P(z) != IS_OBJECT) &#123;</span><br><span class="line">					zend_string *str = zval_get_string(z);</span><br><span class="line">					zval_ptr_dtor(z);</span><br><span class="line">					return str;</span><br><span class="line">				&#125;</span><br><span class="line">				zval_ptr_dtor(z);</span><br><span class="line">			&#125;</span><br><span class="line">			zend_error(EG(exception) ? E_ERROR : E_RECOVERABLE_ERROR, &quot;Object of class %s could not be converted to string&quot;, ZSTR_VAL(Z_OBJCE_P(op)-&gt;name));</span><br><span class="line">			return ZSTR_EMPTY_ALLOC();</span><br><span class="line">		&#125;</span><br><span class="line">		case IS_REFERENCE:</span><br><span class="line">			op = Z_REFVAL_P(op);</span><br><span class="line">			goto try_again;</span><br><span class="line">		case IS_STRING:</span><br><span class="line">			return zend_string_copy(Z_STR_P(op));</span><br><span class="line">		EMPTY_SWITCH_DEFAULT_CASE()</span><br><span class="line">	&#125;</span><br><span class="line">	return NULL;</span><br><span class="line">&#125;</span><br><span class="line">/* &#125;&#125;&#125; */</span><br></pre></td></tr></table></figure>
+<h2 id="7、Zend-zend-compile-c对echo的解析"><a href="#7、Zend-zend-compile-c对echo的解析" class="headerlink" title="7、Zend/zend_compile.c对echo的解析"></a>7、Zend/zend_compile.c对echo的解析</h2><h3 id="7-1-源码地址"><a href="#7-1-源码地址" class="headerlink" title="7.1 源码地址"></a>7.1 源码地址</h3><ul>
+<li><a href="https://github.com/php/php-src/tree/PHP-7.2.8/Zend/zend_compile.h" target="_blank" rel="noopener">PHP源码地址 zend_compile.h</a></li>
+<li><a href="https://github.com/php/php-src/tree/PHP-7.2.8/Zend/zend_compile.c" target="_blank" rel="noopener">PHP源码地址 zend_compile.c</a></li>
+</ul>
+<h3 id="7-2-zend-compile-expr-实现"><a href="#7-2-zend-compile-expr-实现" class="headerlink" title="7.2 zend_compile_expr 实现"></a>7.2 <code>zend_compile_expr</code> 实现</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br></pre></td><td class="code"><pre><span class="line"># Zend/zend_compile.h</span><br><span class="line">void zend_compile_expr(znode *node, zend_ast *ast);</span><br><span class="line"></span><br><span class="line"># Zend/zend_compile.c</span><br><span class="line">void zend_compile_expr(znode *result, zend_ast *ast) /* &#123;&#123;&#123; */</span><br><span class="line">&#123;</span><br><span class="line">	/* CG(zend_lineno) = ast-&gt;lineno; */</span><br><span class="line">	CG(zend_lineno) = zend_ast_get_lineno(ast);</span><br><span class="line"></span><br><span class="line">	switch (ast-&gt;kind) &#123;</span><br><span class="line">		case ZEND_AST_ZVAL:</span><br><span class="line">			ZVAL_COPY(&amp;result-&gt;u.constant, zend_ast_get_zval(ast));</span><br><span class="line">			result-&gt;op_type = IS_CONST;</span><br><span class="line">			return;</span><br><span class="line">		case ZEND_AST_ZNODE:</span><br><span class="line">			*result = *zend_ast_get_znode(ast);</span><br><span class="line">			return;</span><br><span class="line">		case ZEND_AST_VAR:</span><br><span class="line">		case ZEND_AST_DIM:</span><br><span class="line">		case ZEND_AST_PROP:</span><br><span class="line">		case ZEND_AST_STATIC_PROP:</span><br><span class="line">		case ZEND_AST_CALL:</span><br><span class="line">		case ZEND_AST_METHOD_CALL:</span><br><span class="line">		case ZEND_AST_STATIC_CALL:</span><br><span class="line">			zend_compile_var(result, ast, BP_VAR_R);</span><br><span class="line">			return;</span><br><span class="line">		case ZEND_AST_ASSIGN:</span><br><span class="line">			zend_compile_assign(result, ast);</span><br><span class="line">			return;</span><br><span class="line">		case ZEND_AST_ASSIGN_REF:</span><br><span class="line">			zend_compile_assign_ref(result, ast);</span><br><span class="line">			return;</span><br><span class="line">		case ZEND_AST_NEW:</span><br><span class="line">			zend_compile_new(result, ast);</span><br><span class="line">			return;</span><br><span class="line">		case ZEND_AST_CLONE:</span><br><span class="line">			zend_compile_clone(result, ast);</span><br><span class="line">			return;</span><br><span class="line">		case ZEND_AST_ASSIGN_OP:</span><br><span class="line">			zend_compile_compound_assign(result, ast);</span><br><span class="line">			return;</span><br><span class="line">		case ZEND_AST_BINARY_OP:</span><br><span class="line">			zend_compile_binary_op(result, ast);</span><br><span class="line">			return;</span><br><span class="line">		case ZEND_AST_GREATER:</span><br><span class="line">		case ZEND_AST_GREATER_EQUAL:</span><br><span class="line">			zend_compile_greater(result, ast);</span><br><span class="line">			return;</span><br><span class="line">		case ZEND_AST_UNARY_OP:</span><br><span class="line">			zend_compile_unary_op(result, ast);</span><br><span class="line">			return;</span><br><span class="line">		case ZEND_AST_UNARY_PLUS:</span><br><span class="line">		case ZEND_AST_UNARY_MINUS:</span><br><span class="line">			zend_compile_unary_pm(result, ast);</span><br><span class="line">			return;</span><br><span class="line">		case ZEND_AST_AND:</span><br><span class="line">		case ZEND_AST_OR:</span><br><span class="line">			zend_compile_short_circuiting(result, ast);</span><br><span class="line">			return;</span><br><span class="line">		case ZEND_AST_POST_INC:</span><br><span class="line">		case ZEND_AST_POST_DEC:</span><br><span class="line">			zend_compile_post_incdec(result, ast);</span><br><span class="line">			return;</span><br><span class="line">		case ZEND_AST_PRE_INC:</span><br><span class="line">		case ZEND_AST_PRE_DEC:</span><br><span class="line">			zend_compile_pre_incdec(result, ast);</span><br><span class="line">			return;</span><br><span class="line">		case ZEND_AST_CAST:</span><br><span class="line">			zend_compile_cast(result, ast);</span><br><span class="line">			return;</span><br><span class="line">		case ZEND_AST_CONDITIONAL:</span><br><span class="line">			zend_compile_conditional(result, ast);</span><br><span class="line">			return;</span><br><span class="line">		case ZEND_AST_COALESCE:</span><br><span class="line">			zend_compile_coalesce(result, ast);</span><br><span class="line">			return;</span><br><span class="line">		case ZEND_AST_PRINT:</span><br><span class="line">			zend_compile_print(result, ast);</span><br><span class="line">			return;</span><br><span class="line">		case ZEND_AST_EXIT:</span><br><span class="line">			zend_compile_exit(result, ast);</span><br><span class="line">			return;</span><br><span class="line">		case ZEND_AST_YIELD:</span><br><span class="line">			zend_compile_yield(result, ast);</span><br><span class="line">			return;</span><br><span class="line">		case ZEND_AST_YIELD_FROM:</span><br><span class="line">			zend_compile_yield_from(result, ast);</span><br><span class="line">			return;</span><br><span class="line">		case ZEND_AST_INSTANCEOF:</span><br><span class="line">			zend_compile_instanceof(result, ast);</span><br><span class="line">			return;</span><br><span class="line">		case ZEND_AST_INCLUDE_OR_EVAL:</span><br><span class="line">			zend_compile_include_or_eval(result, ast);</span><br><span class="line">			return;</span><br><span class="line">		case ZEND_AST_ISSET:</span><br><span class="line">		case ZEND_AST_EMPTY:</span><br><span class="line">			zend_compile_isset_or_empty(result, ast);</span><br><span class="line">			return;</span><br><span class="line">		case ZEND_AST_SILENCE:</span><br><span class="line">			zend_compile_silence(result, ast);</span><br><span class="line">			return;</span><br><span class="line">		case ZEND_AST_SHELL_EXEC:</span><br><span class="line">			zend_compile_shell_exec(result, ast);</span><br><span class="line">			return;</span><br><span class="line">		case ZEND_AST_ARRAY:</span><br><span class="line">			zend_compile_array(result, ast);</span><br><span class="line">			return;</span><br><span class="line">		case ZEND_AST_CONST:</span><br><span class="line">			zend_compile_const(result, ast);</span><br><span class="line">			return;</span><br><span class="line">		case ZEND_AST_CLASS_CONST:</span><br><span class="line">			zend_compile_class_const(result, ast);</span><br><span class="line">			return;</span><br><span class="line">		case ZEND_AST_ENCAPS_LIST:</span><br><span class="line">			zend_compile_encaps_list(result, ast);</span><br><span class="line">			return;</span><br><span class="line">		case ZEND_AST_MAGIC_CONST:</span><br><span class="line">			zend_compile_magic_const(result, ast);</span><br><span class="line">			return;</span><br><span class="line">		case ZEND_AST_CLOSURE:</span><br><span class="line">			zend_compile_func_decl(result, ast);</span><br><span class="line">			return;</span><br><span class="line">		default:</span><br><span class="line">			ZEND_ASSERT(0 /* not supported */);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">/* &#125;&#125;&#125; */</span><br></pre></td></tr></table></figure>
+<h3 id="7-3-zend-compile-echo-实现"><a href="#7-3-zend-compile-echo-实现" class="headerlink" title="7.3 zend_compile_echo 实现"></a>7.3 <code>zend_compile_echo</code> 实现</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># Zend/zend_compile.c</span><br><span class="line">void zend_compile_echo(zend_ast *ast) /* &#123;&#123;&#123; */</span><br><span class="line">&#123;</span><br><span class="line">	zend_op *opline;</span><br><span class="line">	zend_ast *expr_ast = ast-&gt;child[0];</span><br><span class="line"></span><br><span class="line">	znode expr_node;</span><br><span class="line">	zend_compile_expr(&amp;expr_node, expr_ast);</span><br><span class="line"></span><br><span class="line">	opline = zend_emit_op(NULL, ZEND_ECHO, &amp;expr_node, NULL);</span><br><span class="line">	opline-&gt;extended_value = 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="8、参考"><a href="#8、参考" class="headerlink" title="8、参考"></a>8、参考</h2><ul>
+<li><a href="http://www.laruence.com/2011/02/13/1870.html" target="_blank" rel="noopener">@Laruence 加速PHP的ECHO</a></li>
+<li><a href="http://www.laruence.com/2010/12/17/1833.html" target="_blank" rel="noopener">@Laruence PHP是无辜的</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/php/" rel="tag"># php</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/24/字符串查找/" rel="next" title="字符串查找">
+                <i class="fa fa-chevron-left"></i> 字符串查找
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">jianyong</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、概述"><span class="nav-number">1.</span> <span class="nav-text">1、概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、官方文档-php-net"><span class="nav-number">2.</span> <span class="nav-text">2、官方文档(php.net)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-输出一个或多个字符串"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 输出一个或多个字符串</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-说明"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-注释"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 注释</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、应用"><span class="nav-number">3.</span> <span class="nav-text">3、应用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-输出基本数据类型"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 输出基本数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-输出对象类型"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 输出对象类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-输出资源类型"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 输出资源类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4、源码"><span class="nav-number">4.</span> <span class="nav-text">4、源码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-源码概述"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 源码概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-字符转标记-Zend-zend-language-scanner-l"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 字符转标记(Zend/zend_language_scanner.l)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-语法分析-Zend-zend-language-parser-y"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 语法分析(Zend/zend_language_parser.y)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-模块初始化-main-main-c"><span class="nav-number">4.4.</span> <span class="nav-text">4.4 模块初始化(main/main.c)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-输出的终点-main-output-c-fwrite函数"><span class="nav-number">4.5.</span> <span class="nav-text">4.5 输出的终点(main/output.c fwrite函数)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-6-输出动作的ZEND引擎实现-Zend-zend-vm-def-h"><span class="nav-number">4.6.</span> <span class="nav-text">4.6 输出动作的ZEND引擎实现(Zend/zend_vm_def.h)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-7-zend-write实现-Zend-zend-c"><span class="nav-number">4.7.</span> <span class="nav-text">4.7 zend_write实现(Zend/zend.c)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5、php-echo-加速"><span class="nav-number">5.</span> <span class="nav-text">5、php(echo)加速</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-PHP-echo-真的慢么"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 PHP echo 真的慢么?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-还是可以优化的-打开输出缓存"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 还是可以优化的: 打开输出缓存</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6、输出时的类型转换"><span class="nav-number">6.</span> <span class="nav-text">6、输出时的类型转换</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-输出时的类型转换规则"><span class="nav-number">6.1.</span> <span class="nav-text">6.1 输出时的类型转换规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-输出时的类型转换源码-Zend-zend-operators-h-amp-Zend-zend-operators-c"><span class="nav-number">6.2.</span> <span class="nav-text">6.2 输出时的类型转换源码(Zend/zend_operators.h &amp; Zend/zend_operators.c)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7、Zend-zend-compile-c对echo的解析"><span class="nav-number">7.</span> <span class="nav-text">7、Zend/zend_compile.c对echo的解析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-源码地址"><span class="nav-number">7.1.</span> <span class="nav-text">7.1 源码地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-zend-compile-expr-实现"><span class="nav-number">7.2.</span> <span class="nav-text">7.2 zend_compile_expr 实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-3-zend-compile-echo-实现"><span class="nav-number">7.3.</span> <span class="nav-text">7.3 zend_compile_echo 实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8、参考"><span class="nav-number">8.</span> <span class="nav-text">8、参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jianyong</span>
+
+  
+</div>
+
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+  </span>
+  </div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
